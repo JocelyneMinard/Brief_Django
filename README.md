@@ -13,11 +13,12 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  python manage.py runserver
  ```
 
-
-
 ## Technical choices
 ### dbdiagram
 We selected **[dbdiagram.io](https://dbdiagram.io/home)** for database modeling due to its simplicity, zero-install browser interface, and free tier. Using plain-text DBML syntax makes it natively Git-compatible for easy version control, while built-in AI features remain optionally available if needed.
 
 ### SQLite
 The use of SQLite is directly mandated by the project brief.
+
+### Task management 
+https://kabane.spendbaker.com/boards/kabane-tour-3989bb0d/wide
