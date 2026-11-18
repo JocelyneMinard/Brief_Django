@@ -131,15 +131,12 @@ MAILERS = {
 }
 
 # Forcer le chiffrement HTTPS
-
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True
 
 
 # Protéger les cookies
-
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Activation de HSTS
-
 SECURE_HSTS_SECONDS = 31536000
