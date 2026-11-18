@@ -22,7 +22,7 @@ class User(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=Q(mail__contains='@'),
+                condition=Q(mail__contains='@'),
                 name='check_mail_format'
             ),
         ]
@@ -84,12 +84,12 @@ class Book(models.Model):
         constraints = [
             # Checks whether the book falls within the publication period
             models.CheckConstraint(
-                check=Q(published_year__gte=1850) & Q(published_year__lte=2025),
+                condition=Q(published_year__gte=1850) & Q(published_year__lte=2025),
                 name='check_published_year_range'
             ),
             # Checks to see if the book lists the correct quantities
             models.CheckConstraint(
-                check=Q(quantity__gte=1) & Q(quantity__lte=4),
+                condition=Q(quantity__gte=1) & Q(quantity__lte=4),
                 name='check_quantity_range'
             ),
         ]
@@ -108,7 +108,7 @@ class Reservation(models.Model):
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, help_text="User who reserved the book")
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False help_text="Book reserved by the user")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False, help_text="Book reserved by the user")
     status = models.CharField(max_length=50, default='pending', null=False, help_text="Actual status of the reservation")
     creation_date = models.DateTimeField(null=False, help_text="Date when the reservation was created")
     last_update = models.DateTimeField(blank=True, null=True, help_text="Last update of the reservation")
@@ -118,12 +118,12 @@ class Reservation(models.Model):
         constraints = [
             # Check if the creation_date is between the two mandatory dates
             models.CheckConstraint(
-                check=Q(creation_date__gte='2026-09-01') & Q(creation_date__lte='2026-11-15'),
+                condition=Q(creation_date__gte='2026-09-01') & Q(creation_date__lte='2026-11-15'),
                 name='check_creation_date_range'
             ),
             # Check if the update is posterior to the creation
             models.CheckConstraint(
-                check=Q(last_update__gte=models.F('creation_date')),
+                condition=Q(last_update__gte=models.F('creation_date')),
                 name='check_status_date_order'
             ),
         ]
