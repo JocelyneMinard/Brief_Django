@@ -1,25 +1,24 @@
 import csv
 from pathlib import Path
 from ReadMe.models import User
+from django.conf import settings
 
-def import_users_from_csv(file_path=None):
+def import_users_from_csv(file_path= None):
     """
     Fonction réutilisable pour importer les utilisateurs depuis un CSV.
     """
-
-    BASE_DIR = Path(__file__).resolve().parent.parent
-
+    # Si aucun chemin n'est fourni ou si c'est juste un nom de fichier / chemin relatif
     if file_path is None:
-        file_path = BASE_DIR / 'data' / 'utilisateurs.csv'
+        file_path = settings.BASE_DIR / 'data' / 'utilisateurs.csv'
     else:
-        file_path = Path(file_path)
-        if not file_path.is_absolute():
-
-            potential_path = BASE_DIR / 'data' / file_path
-            if potential_path.exists():
-                file_path = potential_path
+        path_obj = Path(file_path)
+        if not path_obj.is_absolute():
+            # Si le chemin commence par data/ ou contient déjà data/
+            if 'data' in path_obj.parts:
+                file_path = settings.BASE_DIR / path_obj
             else:
-                file_path = BASE_DIR / file_path
+                # Sinon on force le placement dans le dossier data/
+                file_path = settings.BASE_DIR / 'data' / path_obj
 
     count = 0
     

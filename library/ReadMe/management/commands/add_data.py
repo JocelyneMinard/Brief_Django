@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         counter = import_category("./data/categories.csv")
         counter = import_books("./data/objets.csv")
-        counter = import_users_from_csv()
+        counter = import_users_from_csv("data/utilisateurs.csv")
 
         self.stdout.write(
             self.style.SUCCESS(
