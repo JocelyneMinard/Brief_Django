@@ -38,7 +38,7 @@ class User(AbstractUser):
             super().save(update_fields=['membership_number'])
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.mail})"
+        return f"{self.first_name} {self.last_name} ({self.email})"
 
 
 class Category(models.Model):
@@ -101,8 +101,8 @@ class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text="User who reserved the book")
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False, help_text="Book reserved by the user")
     status = models.CharField(max_length=50, default='pending', null=False, help_text="Actual status of the reservation")
-    creation_date = models.DateTimeField(null=False, help_text="Date when the reservation was created")
-    last_update = models.DateTimeField(blank=True, null=True, help_text="Last update of the reservation")
+    creation_date = models.DateField(null=False, help_text="Date when the reservation was created")
+    last_update = models.DateField(blank=True, null=True, help_text="Last update of the reservation")
 
     # A native Django class reserved for configuration
     class Meta:

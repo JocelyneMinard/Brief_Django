@@ -10,6 +10,7 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  ```
  cd library
  python manage.py migrate
+ python manage.py add_data
  python manage.py runserver
  ```
 
@@ -22,3 +23,6 @@ The use of SQLite is directly mandated by the project brief.
 
 ### Task management 
 https://kabane.spendbaker.com/boards/kabane-tour-3989bb0d/wide
+
+### Structure
+Django automatically registers any Python script inside an app's management/commands/ directory as long as it doesn't start with an underscore. **[Django documentation](https://docs.djangoproject.com/en/6.1/howto/custom-management-commands/)

@@ -2,6 +2,10 @@ import csv
 from pathlib import Path
 from ReadMe.models import User
 from django.conf import settings
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def import_users_from_csv(file_path= None):
     """
@@ -9,7 +13,7 @@ def import_users_from_csv(file_path= None):
     """
     # Si aucun chemin n'est fourni ou si c'est juste un nom de fichier / chemin relatif
     if file_path is None:
-        file_path = settings.BASE_DIR / 'data' / 'utilisateurs.csv'
+        file_path = settings.BASE_DIR / os.getenv('USERS_CSV', 'users_csv')
     else:
         path_obj = Path(file_path)
         if not path_obj.is_absolute():
