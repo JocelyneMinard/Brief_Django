@@ -10,19 +10,9 @@ from .import_category import import_category
 class Command(BaseCommand):
     help = 'Add data in database from csv file'
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            'csv_path',
-            type=str,
-            nargs='?',
-            default='./data/objets.csv',
-            help='Path to csv file'
-        )
-
     def handle(self, *args, **options):
-        csv_path = options['csv_path']
-        counter = import_category(csv_path)
-        counter = import_books(csv_path)
+        counter = import_category("./data/categories.csv")
+        counter = import_books("./data/objets.csv")
 
         self.stdout.write(
             self.style.SUCCESS(
