@@ -17,4 +17,3 @@ def import_category(csv_path='./data/categories.csv'):
             counter += 1
 
     return counter
-
