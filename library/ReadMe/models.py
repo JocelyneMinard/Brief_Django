@@ -1,31 +1,21 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 from django.db.models import Q  # Q allows you to handle relationships that are more complex than the default “AND” relationship, for filter(), instead of a boolean
 
-class User(models.Model):
+class User(AbstractUser):
     """
-    Represents an user of the application ReadMe Library.
-    An user can be a simple user or a manager
+    Custom user model for the ReadMe Library system.
+    Inherits from AbstractUser to handle authentication while adding library-specific fields.
 
     Business rules :
-        - The email format must be valid
         - The membership number follows the format BIB-XXXX (XXXX is the id in db) and is unique.
     """
 
-    first_name = models.CharField(max_length=150, null=False, help_text="First name of the user")
-    last_name = models.CharField(max_length=150, null=False, help_text="Last name of the user")
-    mail = models.EmailField(unique=True, null=False, help_text="Mail of the user") 
     role = models.CharField(max_length=50, default='utilisateur', null=False, help_text="Role of the user (user or manager)")
 
     membership_number = models.CharField(max_length=50, unique=True, blank=True, help_text="Number of membership, unique with the format BIB-XXXX")
 
-    # A native Django class reserved for configuration
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                condition=Q(mail__contains='@'),
-                name='check_mail_format'
-            ),
-        ]
 
     def save(self, *args, **kwargs)-> None:
         """
@@ -107,7 +97,8 @@ class Reservation(models.Model):
         - An update cannot precede a creation
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, help_text="User who reserved the book")
+    # Use settings.AUTH_USER_MODEL to link reservation and user from django 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text="User who reserved the book")
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False, help_text="Book reserved by the user")
     status = models.CharField(max_length=50, default='pending', null=False, help_text="Actual status of the reservation")
     creation_date = models.DateTimeField(null=False, help_text="Date when the reservation was created")

@@ -143,3 +143,6 @@ CSRF_COOKIE_SECURE = True
 
 # Activation de HSTS
 SECURE_HSTS_SECONDS = 31536000
+
+# Allows our app to use the user library as authentification
+AUTH_USER_MODEL = 'ReadMe.User'
