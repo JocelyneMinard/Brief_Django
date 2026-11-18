@@ -132,7 +132,7 @@ MAILERS = {
 
 # Forcer le chiffrement HTTPS
 
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True
 
 
 # Protéger les cookies
