@@ -5,6 +5,7 @@
 
 from django.core.management.base import BaseCommand
 from .import_book import import_books
+from .import_category import import_category
 
 class Command(BaseCommand):
     help = 'Add data in database from csv file'
@@ -20,6 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         csv_path = options['csv_path']
+        counter = import_category(csv_path)
         counter = import_books(csv_path)
 
         self.stdout.write(
