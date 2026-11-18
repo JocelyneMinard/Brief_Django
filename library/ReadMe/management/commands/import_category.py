@@ -7,9 +7,9 @@ def import_category(csv_path='./data/categories.csv'):
 
     counter = 0
 
-    with open(csv_path, mode='r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        
+    with open(csv_path, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file, skipinitialspace=True)
+
         for row in reader:
             Category.objects.get_or_create(
                 name=row['nom'],
