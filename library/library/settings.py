@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Our app :
     'ReadMe',
+    'Account',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -145,10 +146,4 @@ CSRF_COOKIE_SECURE = not DEBUG
 SECURE_HSTS_SECONDS = 31536000
 
 # Allows our app to use the user library as authentification
-AUTH_USER_MODEL = 'ReadMe.User'
-
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = (
-    '/readme/login'  
-)
-LOGOUT_REDIRECT_URL = 'login'
+AUTH_USER_MODEL = 'Account.User'
