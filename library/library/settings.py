@@ -37,8 +37,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Our app :
     'ReadMe',
+    'tailwind',
+    'ReadMeStyle',
     'Account',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+TAILWIND_APP_NAME = "ReadMeStyle"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

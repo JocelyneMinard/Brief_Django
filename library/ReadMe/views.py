@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 
+from django.views.generic import TemplateView
+
 # Create your views here.
-user = get_user_model()
-user.objects.all()
+class ReadMeIndex(TemplateView):
+    template_name = "ReadMe/index.html"

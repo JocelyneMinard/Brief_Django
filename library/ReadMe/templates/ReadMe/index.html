@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+ <section class="">
+      <div class="mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
+        
+        <div class="lg:col-span-5">
+          <h1 class="text-4xl sm:text-5xl font-black uppercase leading-none tracking-tight text-gray-900 mb-5">
+            ReadMe<span class="text-red-500">.</span>
+            <span class="bang-outline inline-block text-yellow-400 rotate-12 ml-1">!</span>
+          </h1>
+
+          <p class="text-base text-gray-600 mb-8 leading-relaxed">
+            La librairie pensée pour tous les lecteurs, de 7 à 97 ans. Premières lectures, romans captivants ou mangas cultes, chaque génération trouve ici sa prochaine belle histoire.
+          </p>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="#selection" class="bg-red-500 text-white font-extrabold text-xs tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard">
+              EXPLORER LE CATALOGUE →
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
+          <img 
+            src="{% static 'img/manga_hero.jpg' %}" 
+            alt="Manga ouvert avec scènes d'action" 
+            class="w-full max-w-[600px] h-auto object-contain mix-blend-multiply"
+          >
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 01 // SÉLECTION DU MOMENT -->
+    <section id="selection" class="pt-4 pb-20">
+      <div class="max-w-[1200px] mx-auto px-6">
+        
+        <div class="mb-6">
+          <h2 class="text-2xl font-black tracking-tight text-gray-900">
+            <span class="text-red-500 font-mono">01 //</span> SÉLECTION DU MOMENT
+          </h2>
+          <p class="text-sm text-gray-600 mt-1">
+            Les volumes indispensables à dévorer cette semaine
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Carte 1 -->
+          <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
+            <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
+              <img src="{% static 'images/cover-shinobi.jpg' %}" alt="Shinobi Rebels" class="w-full h-full object-cover">
+            </div>
+            <div class="flex flex-col justify-between flex-1">
+              <div>
+                <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
+                  SHINOBI REBELS — T.01
+                </h3>
+                <p class="text-sm text-gray-500">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+                    ut labore et dolore magna aliqua.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 2 -->
+          <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
+            <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
+              <img src="{% static 'images/cover-neotokyo.jpg' %}" alt="Neo-Tokyo 2099" class="w-full h-full object-cover">
+            </div>
+            <div class="flex flex-col justify-between flex-1">
+              <div>
+                <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
+                  NEO-TOKYO 2099 — T.03
+                </h3>
+                <p class="text-sm text-gray-500">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+                    ut labore et dolore magna aliqua...
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 3 -->
+          <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
+            <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
+              <img src="{% static 'images/cover-samourai.jpg' %}" alt="L'Ombre du Samouraï" class="w-full h-full object-cover">
+            </div>
+            <div class="flex flex-col justify-between flex-1">
+              <div>
+                <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
+                  L'OMBRE DU SAMOURAÏ — T.01
+                </h3>
+                <p class="text-sm text-gray-500">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
