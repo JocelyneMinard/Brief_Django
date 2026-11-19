@@ -1,28 +1,14 @@
 {% load static %} 
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadMe Library</title>
-    <!-- Chargement de Tailwind CSS via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-        tailwind.config = {
-            content: [
-                './templates/**/*.html',
-                './ReadMe/templates/**/*.html',
-                './ReadMe/forms.py', // Important pour les classes ajoutées dans CustomLoginForm !
-            ],
-            theme: {
-                extend: {
-                    maxWidth: {
-                        'site': '1200px', // Définition personnalisée pour 1200px
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Chargement de Tailwind CSS via Django -->
+    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
 
