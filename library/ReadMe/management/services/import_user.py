@@ -7,21 +7,35 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def import_users_from_csv(file_path= None):
+def import_users_from_csv(file_path= None)-> None:
     """
-    Fonction réutilisable pour importer les utilisateurs depuis un CSV.
+    Reusable function for importing users from a CSV file.
+    Searches for the desired file using a specified path or the default path.
+    Then prepares each data point to match the desired column.
+    Adds a username, which is required.
+    Then checks for duplicates.
+
+    If even a single error occurs, the entire process is canceled.
+
+    [Args]:
+    file_path : path of the csv file
     """
-    # Si aucun chemin n'est fourni ou si c'est juste un nom de fichier / chemin relatif
+
+    # If no path is provided, or if it is just a filename or relative path
     if file_path is None:
         file_path = settings.BASE_DIR / os.getenv('USERS_CSV', 'users_csv')
+
     else:
+
         path_obj = Path(file_path)
         if not path_obj.is_absolute():
-            # Si le chemin commence par data/ ou contient déjà data/
+
+            # If the path begins with “data/” or already contains “data/”
             if 'data' in path_obj.parts:
                 file_path = settings.BASE_DIR / path_obj
+
             else:
-                # Sinon on force le placement dans le dossier data/
+                # Otherwise, we force the file to be placed in the data/ folder.
                 file_path = settings.BASE_DIR / 'data' / path_obj
 
     count = 0
@@ -29,8 +43,9 @@ def import_users_from_csv(file_path= None):
     try:
         with open(file_path, mode='r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
-            
-            for row_index, row in enumerate(reader, start=2): # start=2 pour inclure l'en-tête dans le compteur de lignes
+
+            # start=2 to include the header in the line count
+            for row_index, row in enumerate(reader, start=2): 
                 try:
                     user_id = int(row['id'])
                     first_name = row['prenom']
@@ -39,7 +54,7 @@ def import_users_from_csv(file_path= None):
                     role = row['role']
                     membership_number = row['numero_adherent']
 
-                    # Générer un username unique (INDISPENSABLE pour django)
+                    # Generate a unique username (ESSENTIAL for Django)
                     base_username = email.split('@')[0]
                     username = base_username
                     counter = 1
@@ -47,13 +62,13 @@ def import_users_from_csv(file_path= None):
                         username = f"{base_username}{counter}"
                         counter += 1
 
-                    # Vérifier les doublons avant création
+                    # Check for duplicates before creating
                     if not User.objects.filter(email=email).exists() and not User.objects.filter(id=user_id).exists():
                         User.objects.create_user(
                             id=user_id,
                             username=username,       
                             email=email,
-                            password="demo1234",     # Mot de passe temporaire
+                            password="demo1234",     # Temporary Password
                             first_name=first_name,
                             last_name=last_name,
                             role=role,
@@ -62,16 +77,16 @@ def import_users_from_csv(file_path= None):
                         count += 1
                         
                 except KeyError as e:
-                    print(f"Erreur de colonne manquante à la ligne {row_index}: clé {e} introuvable.")
+                    print(f"Missing column error at row {row_index}: key {e} not found.")
                 except ValueError as e:
-                    print(f"Erreur de format de données à la ligne {row_index}: {e}")
+                    print(f"Data format error in row {row_index}: {e}")
                 except Exception as e:
-                    print(f"Erreur inattendue à la ligne {row_index}: {e}")
+                    print(f"Unexpected error on line {row_index}: {e}")
 
     except FileNotFoundError:
-        raise FileNotFoundError(f"Le fichier '{file_path}' est introuvable. Vérifie le chemin.")
+        raise FileNotFoundError(f"The file ‘{file_path}’ cannot be found. Check the path.")
     except Exception as e:
-        raise Exception(f"Erreur critique lors de l'ouverture du fichier CSV : {e}")
+        raise Exception(f"Critical error while opening the CSV file: {e}")
         
     return count
 

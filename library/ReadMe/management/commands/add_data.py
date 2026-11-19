@@ -1,6 +1,6 @@
-# En faisant hériter la classe de BaseCommand, 
-# Django reconnaît le fichier comme une commande officielle du projet, 
-# au même titre que runserver ou migrate.
+# By having the class inherit from BaseCommand, 
+# Django recognizes the file as an official command for the project, 
+# just like runserver or migrate.
 # python manage.py add_data
 
 from django.core.management.base import BaseCommand
