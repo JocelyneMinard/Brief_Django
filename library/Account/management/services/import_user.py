@@ -1,9 +1,11 @@
 import csv
 from pathlib import Path
-from ReadMe.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 import os
 from dotenv import load_dotenv
+
+User = get_user_model()
 
 load_dotenv()
 
