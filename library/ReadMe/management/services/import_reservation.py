@@ -18,8 +18,8 @@ def import_reservation(csv_path):
                 user_id = int(row['utilisateur_id']),
                 book_id = int(row['objet_id']),
                 status = row['etat'],
-                creation_date = datetime.strptime(row["date_creation"], "%m/%d/%Y").strftime("%Y-%m-%d"),
-                last_update = datetime.strptime(row["date_modification"], "%m/%d/%Y").strftime("%Y-%m-%d")
+                creation_date = datetime.strptime(row["date_creation"], "%Y-%m-%d").date(),
+                last_update = datetime.strptime(row["date_modification"], "%Y-%m-%d").date()
             )
             counter += 1
 
