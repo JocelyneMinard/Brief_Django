@@ -2,7 +2,7 @@
 <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
     <div class="max-w-site mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/readme/" class="text-xl font-bold text-blue-600">
-             <img src="{% static 'img/RML_logo.jpeg' %}" class="max-w-[60px] w-full h-auto">
+             <img src="{% static 'ReadMe/img/RML_logo.jpeg' %}" class="max-w-[60px] w-full h-auto">
         </a>
         <nav class="hidden md:flex space-x-6">
             <a href="/readme/" class="text-gray-600 hover:text-blue-600 transition">Accueil</a>
@@ -12,8 +12,8 @@
         {% if user.is_authenticated %}
 
             <div class="inline-flex">
-                <a href="#" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
-                    <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-1">
+                <a href="/account/profile" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
+                    <img src="{% static 'ReadMe/img/user.svg' %}" class="max-w-[16px] h-auto mr-1">
                     <span>Profil</span>
                 </a>
                 <form method="post" action="{% url 'logout' %}">

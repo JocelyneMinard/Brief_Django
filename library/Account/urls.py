@@ -2,6 +2,7 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from .forms import CustomLoginForm
 from .views import RegisterView
+from . import views
 
 urlpatterns = [
     path("", include("ReadMe.urls")),
@@ -14,5 +15,6 @@ urlpatterns = [
         name='login',
     ),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('profile/', views.profile_view, name='profile'),
     path('register/', RegisterView.as_view(), name='register'),
 ]
