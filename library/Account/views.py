@@ -1,0 +1,5 @@
+from django.contrib.auth import get_user_model
+
+# Create your views here.
+user = get_user_model()
+user.objects.all()
