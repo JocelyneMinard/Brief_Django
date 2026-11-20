@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from .forms import CustomLoginForm
+from .views import book_catalog
 from .views import ReadMeIndex
 
 urlpatterns = [
@@ -30,5 +31,5 @@ urlpatterns = [
         name='login',
     ),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
+    path("catalog/", book_catalog, name="catalog"),
 ]
