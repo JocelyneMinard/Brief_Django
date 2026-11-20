@@ -10,13 +10,13 @@
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
 
     {% include "header.html" %}
     
     <!-- CONTENU PRINCIPAL -->
     <!-- Le 'pt-24' (padding-top) évite que le haut du contenu soit caché sous le header fixe de 'h-16' -->
-    <main class="w-full max-w-[1200px] mx-auto px-4 mt-24">
+    <main class="w-full max-w-[1200px] mx-auto px-4 mt-24 mb-12">
         {% block content %}
         {% endblock %}
     </main>
