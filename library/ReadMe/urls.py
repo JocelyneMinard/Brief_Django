@@ -25,8 +25,8 @@ urlpatterns = [
     path(
         'login/',
         auth_views.LoginView.as_view(
-            template_name='ReadMe/login.html',
-            authentication_form=CustomLoginForm,
+            template_name = 'ReadMe/login.html',
+            authentication_form = CustomLoginForm,
         ),
         name='login',
     ),

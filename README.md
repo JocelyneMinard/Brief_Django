@@ -11,7 +11,7 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  cd library
  python manage.py migrate
  python manage.py add_data
- python manage.py runserver
+ python manage.py tailwind start
  ```
 
 ## Technical choices
