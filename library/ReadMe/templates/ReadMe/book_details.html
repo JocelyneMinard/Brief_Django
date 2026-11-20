@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} — Bibliothèque{% endblock %}
+
+{% block content %}
+    <div class="book-detail-actions">
+        <a href="{% url 'ReadMe:catalog' %}" class="back-link">&larr; Retour au catalogue</a>
+    </div>
+
+    <article class="book-detail">
+        <div class="book-detail-cover">
+            <img
+                src="https://placehold.co/360x500/e9ecef/495057?text={{ book.title|urlencode }}"
+                alt="Couverture de {{ book.title }}"
+            >
+        </div>
+
+        <div class="book-detail-info">
+            {% if book.category %}
+                <span class="book-category">{{ book.category.name }}</span>
+            {% endif %}
+
+            <h1>{{ book.title }}</h1>
+            <p class="book-author"><strong>Auteur :</strong> {{ book.author|default:"Auteur inconnu" }}</p>
+
+            {% if book.description %}
+                <div class="book-description">
+                    <h2>Résumé</h2>
+                    <p>{{ book.description|linebreaksbr }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </article>
+{% endblock %}
