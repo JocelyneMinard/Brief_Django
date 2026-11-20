@@ -1,21 +1,39 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
 from ..models import Book, Category
 
 
-def book_catalog(request):
-    """Affiche le listing public des livres avec filtre par catégorie."""
-    selected_category = request.GET.get("category", "").strip()
+class BookCatalogView(ListView):
+    """Affiche le listing paginé des livres avec filtre catégorie et recherche auteur."""
 
-    books = Book.objects.select_related("category").order_by("title")
-    categories = Category.objects.order_by("name")
+    model = Book
+    template_name = "ReadMe/catalog.html"
+    context_object_name = "books"
+    paginate_by = 12
 
-    if selected_category.isdigit():
-        books = books.filter(category_id=int(selected_category))
+    def _get_selected_category_id(self):
+        raw_category = self.request.GET.get("category", "").strip()
+        return int(raw_category) if raw_category.isdigit() else None
 
-    context = {
-        "books": books,
-        "categories": categories,
-        "selected_category": int(selected_category) if selected_category.isdigit() else None,
-    }
-    return render(request, "ReadMe/catalog.html", context)
+    def _get_author_query(self):
+        return self.request.GET.get("author", "").strip()
+
+    def get_queryset(self):
+        queryset = Book.objects.select_related("category").order_by("title")
+        selected_category = self._get_selected_category_id()
+        author_query = self._get_author_query()
+
+        if selected_category is not None:
+            queryset = queryset.filter(category_id=selected_category)
+
+        if author_query:
+            queryset = queryset.filter(author__icontains=author_query)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.order_by("name")
+        context["selected_category"] = self._get_selected_category_id()
+        context["selected_author"] = self._get_author_query()
+        return context
