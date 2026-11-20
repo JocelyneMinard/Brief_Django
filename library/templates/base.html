@@ -5,10 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadMe Library</title>
-    <!-- Chargement de Tailwind CSS via Django -->
+    <title>{% block title %}ReadMe Library{% endblock %}</title>
     {% tailwind_css %}
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
 

@@ -7,12 +7,12 @@
         <nav class="hidden md:flex space-x-6">
             <a href="/readme/" class="text-gray-600 hover:text-blue-600 transition">Accueil</a>
             <a href="/readme/catalog" class="text-gray-600 hover:text-blue-600 transition">Catalogue</a>
-            <a href="#" class="text-gray-600 hover:text-blue-600 transition">Inscription</a>
+            <a href="/account/register" class="text-gray-600 hover:text-blue-600 transition">Inscription</a>
         </nav>
         {% if user.is_authenticated %}
 
             <div class="inline-flex">
-                <a href="#" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
+                <a href="/account/profile" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
                     <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-1">
                     <span>Profil</span>
                 </a>

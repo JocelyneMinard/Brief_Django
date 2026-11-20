@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
+{% endblock  %}
+{% load static %}
 {% block content %}
  <section class="">
       <div class="mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
@@ -27,7 +31,7 @@
 
         <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
             <img 
-                src="{% static 'img/manga_hero.jpg' %}" 
+                src="{% static 'ReadMe/img/manga_hero.jpg' %}" 
                 alt="Manga ouvert avec scènes d'action" 
                 class="w-full max-w-[600px] h-auto object-contain mix-blend-multiply"
             >
