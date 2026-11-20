@@ -16,20 +16,10 @@ Including another URLconf
 """
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from .forms import CustomLoginForm
 from .views import book_catalog
 from .views import ReadMeIndex
 
 urlpatterns = [
     path('', ReadMeIndex.as_view(), name='index'),
-    path(
-        'login/',
-        auth_views.LoginView.as_view(
-            template_name = 'ReadMe/login.html',
-            authentication_form = CustomLoginForm,
-        ),
-        name='login',
-    ),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("catalog/", book_catalog, name="catalog"),
 ]

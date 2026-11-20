@@ -150,3 +150,5 @@ SECURE_HSTS_SECONDS = 31536000
 
 # Allows our app to use the user library as authentification
 AUTH_USER_MODEL = 'Account.User'
+LOGOUT_REDIRECT_URL = "/readme/"
+LOGIN_REDIRECT_URL = "/readme/"
