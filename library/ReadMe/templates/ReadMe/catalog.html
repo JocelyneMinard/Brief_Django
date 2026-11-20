@@ -44,21 +44,23 @@
     <div id="catalog-results">
         <div class="catalog-grid">
             {% for book in books %}
-                <article class="book-card">
-                    <div class="book-cover">
-                        <img
-                            src="https://placehold.co/300x420/e9ecef/495057?text={{ book.title|urlencode }}"
-                            alt="Couverture de {{ book.title }}"
-                        >
-                    </div>
-                    <div class="book-info">
-                        <h3 class="book-title">{{ book.title }}</h3>
-                        <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
-                        {% if book.category %}
-                            <span class="book-category">{{ book.category.name }}</span>
-                        {% endif %}
-                    </div>
-                </article>
+                <a href="{% url 'ReadMe:book_details' book.pk %}" class="book-cover">
+                    <article class="book-card">
+                        <div class="book-cover">
+                            <img
+                                src="https://placehold.co/300x420/e9ecef/495057?text={{ book.title|urlencode }}"
+                                alt="Couverture de {{ book.title }}"
+                            >
+                        </div>
+                        <div class="book-info">
+                            <h3 class="book-title">{{ book.title }}</h3>
+                            <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
+                            {% if book.category %}
+                                <span class="book-category">{{ book.category.name }}</span>
+                            {% endif %}
+                        </div>
+                    </article>
+                </a>
             {% empty %}
                 <p class="empty-catalog">Aucun livre trouvé pour ces critères.</p>
             {% endfor %}

@@ -16,10 +16,14 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import BookCatalogView
+from .views.catalog import BookCatalogView
 from .views import ReadMeIndex
+from .views.book_details import BookDetailView
+
+app_name = "ReadMe"
 
 urlpatterns = [
     path('', ReadMeIndex.as_view(), name='index'),
-    path("catalog/", BookCatalogView.as_view(), name="catalog")
+    path("catalog/", BookCatalogView.as_view(), name="catalog"),
+    path("catalogue/<int:pk>/", BookDetailView.as_view(), name="book_details"),
 ]
