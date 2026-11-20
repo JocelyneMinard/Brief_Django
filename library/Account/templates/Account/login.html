@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'Account/css/custom.css' %}">
+{% endblock  %}
+
 {% block content %}
     <h2 class="text-2xl font-bold mb-4">Connexion</h2>
     <form method="post" class=" max-w-[400px]  mx-auto">
