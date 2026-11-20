@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Account/css/custom.css' %}">
+{% endblock  %}
+
+{% block content %}
+<form method="POST" class=" max-w-[400px] mx-auto" novalidate>
+	{% csrf_token %}
+	<h2>Registration</h2>
+	{{ form.as_p }}		
+	<input type="submit" value="Register" />
+</form>
+
+{% endblock content%}
