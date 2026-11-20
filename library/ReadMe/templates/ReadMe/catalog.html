@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Catalogue des livres</h1>
+
+    <form method="get">
+        <label for="category-select">Catégorie :</label>
+        <select id="category-select" name="category" onchange="this.form.submit()">
+            <option value="">Toutes les catégories</option>
+            {% for category in categories %}
+                <option value="{{ category.pk }}" {% if category.pk == selected_category %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <noscript><button type="submit">Filtrer</button></noscript>
+    </form>
+
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong>
+                {% if book.category %} — {{ book.category.name }}{% endif %}
+            </li>
+        {% empty %}
+            <li>Aucun livre trouvé pour cette catégorie.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
