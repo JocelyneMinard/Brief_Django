@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extra_css %}
-	<link rel="stylesheet" href="{% static 'Account/css/custom.css' %}">
+	<link rel="stylesheet" href="{% static 'Account/css/Account.css' %}">
 {% endblock  %}
 
 {% block content %}
@@ -11,7 +11,7 @@
 	{% csrf_token %}
 	<h2>Registration</h2>
 	{{ form.as_p }}		
-	<input type="submit" value="Register" />
+	<input type="submit" value="Register" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded"/>
 </form>
 
 {% endblock content%}

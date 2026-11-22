@@ -1,4 +1,5 @@
 from cuser.forms import AuthenticationForm, UserCreationForm
+from django.utils.safestring import mark_safe
 from .models import User
 from django import forms
 
@@ -28,6 +29,10 @@ class RegisterForm(UserCreationForm):
         tailwind_classes = 'w-full border border-gray-300 rounded px-3 py-2 mt-1'
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': tailwind_classes})
+            if field.help_text and '<ul>' in str(field.help_text):
+                field.help_text = mark_safe(
+                    str(field.help_text).replace('<ul>', '<ul class="helptext">')
+                )
 
     def save(self, commit=True):
         user = super().save(commit=False)

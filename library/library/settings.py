@@ -132,6 +132,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Dossier final pour la production
 # Indique à Django de lire aussi le dossier static à la racine
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    BASE_DIR / 'static/Account',
 ]
 
 # Email
