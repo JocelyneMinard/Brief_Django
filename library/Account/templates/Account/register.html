@@ -9,7 +9,7 @@
 {% block content %}
 <form method="POST" class=" max-w-[400px] mx-auto" novalidate>
 	{% csrf_token %}
-	<h2>Registration</h2>
+	<h2 class="text-2xl font-bold mb-4">Registration</h2>
 	{{ form.as_p }}		
 	<input type="submit" value="Register" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded"/>
 </form>

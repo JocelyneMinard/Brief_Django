@@ -1,4 +1,4 @@
-from cuser.forms import AuthenticationForm, UserCreationForm
+from cuser.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 from django.utils.safestring import mark_safe
 from .models import User
 from django import forms
@@ -43,3 +43,17 @@ class RegisterForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class EditProfileForm(UserChangeForm):
+    # hidden password
+    password = None
+
+    class Meta:
+        model = User
+        fields = ("email", "first_name", "last_name")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        tailwind_classes = 'w-full border border-gray-300 rounded px-3 py-2 mt-1'
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': tailwind_classes})
