@@ -33,29 +33,63 @@
 
 /** CSS catalog page ******************************************
 **************************************************************/
-.category-filters {
+.catalog-header {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     margin-bottom: 1.25rem;
 }
 
-.category-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 0.9rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #f8f9fa;
-    color: #212529;
-    text-decoration: none;
-    font-size: 0.92rem;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+.toggle-filters-btn,
+.close-filters-btn {
+    display: none;
+    cursor: pointer;
 }
 
-.category-pill:hover {
-    border-color: #495057;
-    background: #e9ecef;
+.catalog-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.filter-sidebar {
+    position: sticky;
+    top: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.filter-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.filter-group + .filter-group {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-pill {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background: #fff;
+    color: #212529;
+    text-decoration: none;
+    font-size: 0.9rem;
 }
 
 .category-pill.is-active {
@@ -65,7 +99,61 @@
 }
 
 .catalog-filter {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 90;
+}
+
+/* Mode tiroir sur petits écrans (768px et moins) */
+@media (max-width: 768px) {
+    .toggle-filters-btn,
+    .close-filters-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .catalog-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(320px, 85vw);
+        max-width: none;
+        border-radius: 0;
+        overflow-y: auto;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .filter-sidebar.is-open {
+        transform: translateX(0);
+    }
 }
 
 .catalog-grid {

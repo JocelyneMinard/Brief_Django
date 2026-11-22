@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ book.title }} — Bibliothèque{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'ReadMe/css/custom.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="book-detail-actions">
@@ -10,23 +16,49 @@
     <article class="book-detail">
         <div class="book-detail-cover">
             <img
-                src="https://placehold.co/360x500/e9ecef/495057?text={{ book.title|urlencode }}"
+                src="{{ cover_url }}"
                 alt="Couverture de {{ book.title }}"
             >
         </div>
 
         <div class="book-detail-info">
-            {% if book.category %}
-                <span class="book-category">{{ book.category.name }}</span>
-            {% endif %}
+            <div class="book-detail-top">
+                {% if book.category %}
+                    <span class="book-category">{{ book.category.name }}</span>
+                {% endif %}
+
+                <div class="book-availability">
+                    {% if book.available_quantity > 0 %}
+                        <span class="availability-pill is-available">
+                            Dispo
+                        </span>
+                    {% else %}
+                        <span class="availability-pill is-unavailable">
+                            Indisponible
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
 
             <h1>{{ book.title }}</h1>
             <p class="book-author"><strong>Auteur :</strong> {{ book.author|default:"Auteur inconnu" }}</p>
 
-            {% if book.description %}
-                <div class="book-description">
+            {% if book.summary %}
+                <div class="book-summary">
                     <h2>Résumé</h2>
-                    <p>{{ book.description|linebreaksbr }}</p>
+                    <p>{{ book.summary|linebreaksbr }}</p>
+                </div>
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <div class="book-reservation-action">
+                    <button
+                        type="button"
+                        class="reserve-btn"
+                        {% if book.available_quantity <= 0 %}disabled{% endif %}
+                    >
+                        Réserver
+                    </button>
                 </div>
             {% endif %}
         </div>
