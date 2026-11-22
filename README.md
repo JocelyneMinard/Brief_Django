@@ -6,7 +6,8 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
 ## Installation
 ```pip install -r requierements.txt```
 
- After this :
+ After this please aks coworker for have data or organisation member:
+ Put data folder inside project folder
  ```
  cd library
  python manage.py migrate
@@ -26,3 +27,19 @@ https://kabane.spendbaker.com/boards/kabane-tour-3989bb0d/wide
 
 ### Structure
 Django automatically registers any Python script inside an app's management/commands/ directory as long as it doesn't start with an underscore. **[Django documentation](https://docs.djangoproject.com/en/6.1/howto/custom-management-commands/)
+
+### Authentification
+
+
+### Interface
+The logo , homepage illustration is generate by AI.  
+Icon is download on free svg library
+
+### Add django-username-email 
+For connect by email we need to use another pluging of Django
+Dev Team please make this before continue
++ delete database
++ install requirements.txt
++ python manage.py migrate
++ python manage.py add_data
++ python manage.py createsuperuser

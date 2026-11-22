@@ -10,10 +10,6 @@ def profile_view(request):
     return render(request, 'Account/profile.html', {'user': request.user})
 
 
-# Create your views here.
-user = get_user_model()
-user.objects.all()
-
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'Account/register.html'

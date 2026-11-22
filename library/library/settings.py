@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'tailwind',
     'ReadMeStyle',
     'Account',
+    'cuser',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

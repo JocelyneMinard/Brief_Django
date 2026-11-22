@@ -1,7 +1,7 @@
-from django.contrib.auth.models import AbstractUser
+from cuser.models import AbstractCUser
 from django.db import models
 
-class User(AbstractUser):
+class User(AbstractCUser):
     """
     Custom user model for the ReadMe Library system.
     Inherits from AbstractUser to handle authentication while adding library-specific fields.
@@ -12,7 +12,7 @@ class User(AbstractUser):
 
     role = models.CharField(max_length=50, default='utilisateur', null=False, help_text="Role of the user (user or manager)")
 
-    membership_number = models.CharField(max_length=50, unique=True, blank=True, help_text="Number of membership, unique with the format BIB-XXXX")
+    membership_number = models.CharField(max_length=50, unique=True, blank=True, null=True, help_text="Number of membership, unique with the format BIB-XXXX")
 
 
     def save(self, *args, **kwargs)-> None:
