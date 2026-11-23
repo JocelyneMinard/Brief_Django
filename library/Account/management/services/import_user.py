@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 import os
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 User = get_user_model()
 
@@ -44,10 +45,10 @@ def import_users_from_csv(file_path= None)-> None:
     
     try:
         with open(file_path, mode='r', encoding='utf-8') as file:
-            reader = csv.DictReader(file)
+            rows = list(csv.DictReader(file))
 
             # start=2 to include the header in the line count
-            for row_index, row in enumerate(reader, start=2): 
+            for row_index, row in tqdm(enumerate(rows, start=2), total=len(rows), desc="Import Users", unit="user"):
                 try:
                     user_id = int(row['id'])
                     first_name = row['prenom']
