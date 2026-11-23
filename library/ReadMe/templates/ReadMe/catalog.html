@@ -5,92 +5,135 @@
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
 {% block content %}
-    <h2 class="text-2xl font-bold mb-4">Catalogue des livres</h2>
-
-    <div id="category-filters" class="category-filters" role="group" aria-label="Filtrer par catégorie">
-        <a
-            href="?{% if selected_author %}author={{ selected_author|urlencode }}{% endif %}"
-            data-category=""
-            class="category-pill {% if not selected_category %}is-active{% endif %}"
+    <div class="catalog-header">
+        <h2>Catalogue des livres</h2>
+        <button
+            type="button"
+            id="toggle-filters-btn"
+            class="toggle-filters-btn"
+            aria-controls="filter-sidebar"
+            aria-expanded="false"
         >
-            Toutes
-        </a>
-
-        {% for category in categories %}
-            <a
-                href="?category={{ category.pk }}{% if selected_author %}&author={{ selected_author|urlencode }}{% endif %}"
-                data-category="{{ category.pk }}"
-                class="category-pill {% if category.pk == selected_category %}is-active{% endif %}"
-            >
-                {{ category.name }}
-            </a>
-        {% endfor %}
+            Filtres
+        </button>
     </div>
 
-    <form id="catalog-filter-form" method="get" class="catalog-filter">
-        <input type="hidden" name="category" id="category-input" value="{{ selected_category|default:'' }}">
+    <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
 
-        <label for="author-input">Auteur :</label>
-        <input
-            id="author-input"
-            type="search"
-            name="author"
-            value="{{ selected_author }}"
-            placeholder="Rechercher un auteur..."
-            autocomplete="off"
-        >
-        <button type="submit">Rechercher</button>
-        <a href="?" id="reset-filters-btn" class="reset-filters">Réinitialiser</a>
-    </form>
+    <div class="catalog-layout">
+        <aside id="filter-sidebar" class="filter-sidebar" aria-label="Filtres du catalogue">
+            <div class="filter-sidebar-header">
+                <h3>Filtres</h3>
+                <button
+                    type="button"
+                    id="close-filters-btn"
+                    class="close-filters-btn"
+                    aria-label="Fermer les filtres"
+                >
+                    &times;
+                </button>
+            </div>
 
-    <div id="catalog-results">
-        <div class="catalog-grid">
-            {% for book in books %}
-                <a href="{% url 'ReadMe:book_details' book.pk %}" class="book-cover">
-                    <article class="book-card">
-                        <div class="book-cover">
-                            <img
-                                src="https://placehold.co/300x420/e9ecef/495057?text={{ book.title|urlencode }}"
-                                alt="Couverture de {{ book.title }}"
+            <div class="filter-group">
+                <h4>Catégories</h4>
+                <div id="category-filters" class="category-filters" role="group" aria-label="Filtrer par catégorie">
+                    <a
+                        href="?{% if selected_author %}author={{ selected_author|urlencode }}{% endif %}"
+                        data-category=""
+                        class="category-pill {% if not selected_category %}is-active{% endif %}"
+                    >
+                        Toutes
+                    </a>
+
+                    {% for category in categories %}
+                        <a
+                            href="?category={{ category.pk }}{% if selected_author %}&author={{ selected_author|urlencode }}{% endif %}"
+                            data-category="{{ category.pk }}"
+                            class="category-pill {% if category.pk == selected_category %}is-active{% endif %}"
+                        >
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <form id="catalog-filter-form" method="get" class="catalog-filter">
+                    <input type="hidden" name="category" id="category-input" value="{{ selected_category|default:'' }}">
+
+                    <label for="author-input">Auteur :</label>
+                    <input
+                        id="author-input"
+                        type="search"
+                        name="author"
+                        value="{{ selected_author }}"
+                        placeholder="Rechercher un auteur..."
+                        autocomplete="off"
+                    >
+
+                    <div class="filter-actions">
+                        <button type="submit">Rechercher</button>
+                        <a href="?" id="reset-filters-btn" class="reset-filters">Réinitialiser</a>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+        <section class="catalog-main" aria-label="Résultats du catalogue">
+            <div id="catalog-results">
+                <div class="catalog-grid">
+                    {% for book in books %}
+                        <a
+                            href="{% url 'ReadMe:book_details' book.pk %}{% if book.cover_path %}?cover={{ book.cover_path|urlencode }}{% endif %}"
+                            class="book-card-link"
+                        >
+                            <article class="book-card">
+                                <div class="book-cover">
+                                    <img
+                                        src="{{ book.cover_url }}"
+                                        alt="Couverture de {{ book.title }}"
+                                        loading="lazy"
+                                    >
+                                </div>
+                                <div class="book-info">
+                                    <h3 class="book-title">{{ book.title }}</h3>
+                                    <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
+                                    {% if book.category %}
+                                        <span class="book-category">{{ book.category.name }}</span>
+                                    {% endif %}
+                                </div>
+                            </article>
+                        </a>
+                    {% empty %}
+                        <p class="empty-catalog">Aucun livre trouvé pour ces critères.</p>
+                    {% endfor %}
+                </div>
+
+                {% if is_paginated %}
+                    <nav class="pagination" aria-label="Pagination du catalogue">
+                        {% if page_obj.has_previous %}
+                            <a
+                                href="?page={{ page_obj.previous_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
+                                data-page="{{ page_obj.previous_page_number }}"
                             >
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">{{ book.title }}</h3>
-                            <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
-                            {% if book.category %}
-                                <span class="book-category">{{ book.category.name }}</span>
-                            {% endif %}
-                        </div>
-                    </article>
-                </a>
-            {% empty %}
-                <p class="empty-catalog">Aucun livre trouvé pour ces critères.</p>
-            {% endfor %}
-        </div>
+                                Précédent
+                            </a>
+                        {% endif %}
 
-        {% if is_paginated %}
-            <nav class="pagination" aria-label="Pagination du catalogue">
-                {% if page_obj.has_previous %}
-                    <a
-                        href="?page={{ page_obj.previous_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
-                        data-page="{{ page_obj.previous_page_number }}"
-                    >
-                        Précédent
-                    </a>
+                        <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
+
+                        {% if page_obj.has_next %}
+                            <a
+                                href="?page={{ page_obj.next_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
+                                data-page="{{ page_obj.next_page_number }}"
+                            >
+                                Suivant
+                            </a>
+                        {% endif %}
+                    </nav>
                 {% endif %}
-
-                <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
-
-                {% if page_obj.has_next %}
-                    <a
-                        href="?page={{ page_obj.next_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
-                        data-page="{{ page_obj.next_page_number }}"
-                    >
-                        Suivant
-                    </a>
-                {% endif %}
-            </nav>
-        {% endif %}
+            </div>
+        </section>
     </div>
 
     <script src="{% static 'ReadMe/js/catalog.js' %}"></script>

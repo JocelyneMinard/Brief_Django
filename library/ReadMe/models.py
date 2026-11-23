@@ -1,8 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Q  # Q allows you to handle relationships that are more complex than the default “AND” relationship, for filter(), instead of a boolean
+from django.core.exceptions import ValidationError
 
-
+ACTIVE_RESERVATION_STATUSES = ("en_attente", "prete", "empruntee")
 
 class Category(models.Model):
     """
@@ -50,6 +51,13 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def available_quantity(self) -> int:
+        active_count = self.reservation_set.filter(
+            status__in=ACTIVE_RESERVATION_STATUSES
+        ).count()
+        return max(0, (self.quantity or 0) - active_count)
+
 
 class Reservation(models.Model):
     """
@@ -84,3 +92,18 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation #{self.id} - {self.user} ({self.status})"
+
+    def clean(self):
+        super().clean()
+        if self.book_id and self.status in ACTIVE_RESERVATION_STATUSES:
+            active_qs = Reservation.objects.filter(
+                book_id=self.book_id,
+                status__in=ACTIVE_RESERVATION_STATUSES,
+            )
+            if self.pk:
+                active_qs = active_qs.exclude(pk=self.pk)
+
+            if active_qs.count() >= self.book.quantity:
+                raise ValidationError(
+                    "Ce livre a déjà atteint son nombre maximum de réservations actives."
+                )
