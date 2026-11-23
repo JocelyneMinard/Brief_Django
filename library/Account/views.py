@@ -1,18 +1,24 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView
-from .forms import RegisterForm
+from .forms import RegisterForm, EditProfileForm
 from django.urls import reverse_lazy
 
 @login_required
 def profile_view(request):
     return render(request, 'Account/profile.html', {'user': request.user})
 
+@login_required
+def edit_profile_view(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance = request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = EditProfileForm(instance = request.user)
 
-# Create your views here.
-user = get_user_model()
-user.objects.all()
+    return render(request, 'Account/edit.html', {'form': form})
 
 class RegisterView(CreateView):
     form_class = RegisterForm
