@@ -7,11 +7,6 @@
 {% endblock  %}
 {% block title %}{{ book.title }} — Bibliothèque{% endblock %}
 
-{% block head %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
-{% endblock %}
-
 {% block content %}
     <div class="book-detail-actions">
         <a href="{% url 'ReadMe:catalog' %}" class="back-link">&larr; Retour au catalogue</a>
