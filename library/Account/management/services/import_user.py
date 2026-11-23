@@ -56,19 +56,9 @@ def import_users_from_csv(file_path= None)-> None:
                     role = row['role']
                     membership_number = row['numero_adherent']
 
-                    # Generate a unique username (ESSENTIAL for Django)
-                    base_username = email.split('@')[0]
-                    username = base_username
-                    counter = 1
-                    while User.objects.filter(username=username).exists():
-                        username = f"{base_username}{counter}"
-                        counter += 1
-
-                    # Check for duplicates before creating
                     if not User.objects.filter(email=email).exists() and not User.objects.filter(id=user_id).exists():
                         User.objects.create_user(
-                            id=user_id,
-                            username=username,       
+                            id=user_id,   
                             email=email,
                             password="demo1234",     # Temporary Password
                             first_name=first_name,

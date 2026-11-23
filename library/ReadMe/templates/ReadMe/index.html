@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
+{% endblock  %}
+{% load static %}
 {% block content %}
  <section class="">
       <div class="mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
@@ -19,7 +23,7 @@
             {% endif %}
 
             <div class="flex flex-wrap gap-4">
-                <a href="#selection" class="bg-red-500 text-white font-extrabold text-xs tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard">
+                <a href="#selection" class="bg-red-500 text-white font-extrabold text-xs tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard cursor-pointer">
                 EXPLORER LE CATALOGUE →
                 </a>
             </div>
@@ -27,7 +31,7 @@
 
         <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
             <img 
-                src="{% static 'img/manga_hero.jpg' %}" 
+                src="{% static 'ReadMe/img/manga_hero.jpg' %}" 
                 alt="Manga ouvert avec scènes d'action" 
                 class="w-full max-w-[600px] h-auto object-contain mix-blend-multiply"
             >
@@ -54,7 +58,7 @@
             <!-- Carte 1 -->
             <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
                 <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                <img src="{% static 'images/cover-shinobi.jpg' %}" alt="Shinobi Rebels" class="w-full h-full object-cover">
+                <img src="" alt="Shinobi Rebels" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-between flex-1">
                 <div>
@@ -72,7 +76,7 @@
             <!-- Carte 2 -->
             <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
                 <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                    <img src="{% static 'images/cover-neotokyo.jpg' %}" alt="Neo-Tokyo 2099" class="w-full h-full object-cover">
+                    <img src="" alt="Neo-Tokyo 2099" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-between flex-1">
                     <div>
@@ -90,7 +94,7 @@
             <!-- Carte 3 -->
             <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
                 <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                    <img src="{% static 'images/cover-samourai.jpg' %}" alt="L'Ombre du Samouraï" class="w-full h-full object-cover">
+                    <img src="" alt="L'Ombre du Samouraï" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-between flex-1">
                     <div>
