@@ -12,7 +12,7 @@ class User(AbstractCUser):
 
     role = models.CharField(max_length=50, default='utilisateur', null=False, help_text="Role of the user (user or manager)")
 
-    membership_number = models.CharField(max_length=50, unique=True, blank=True, null=True, help_text="Number of membership, unique with the format BIB-XXXX")
+    membership_number = models.CharField(max_length=50, unique=True, blank=True, null=False, help_text="Number of membership, unique with the format BIB-XXXX")
 
 
     def save(self, *args, **kwargs)-> None:
