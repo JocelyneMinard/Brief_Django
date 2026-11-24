@@ -22,15 +22,31 @@ class ReservationView(ListView):
     template_name = "ReadMe/reservation.html"
     context_object_name = "reservations"
 
+    status_group = {
+        "active": ["prete", "empruntee"],
+        "pending": ["en_attente"],
+        "archived": ["rendue", "annulee"],
+    }
     def get_queryset(self):
         user_id = self.kwargs.get("pk")
-        # write on multiple line for resct Python onvention
+        active_tab = self.request.GET.get("tab", "all")
         # select_related on book for have title
-        return (
+        queryset = (
             Reservation.objects.filter(user_id = user_id)
             .select_related("book")
             .order_by("-creation_date")
         )
+        if active_tab in self.status_group:
+            queryset = queryset.filter(status__in = self.status_group[active_tab])
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Envoie l'onglet actif au template HTML pour le style CSS
+        context["active_tab"] = self.request.GET.get("tab", "all")
+        return context
+    
 
 
 class BookReserveView(LoginRequiredMixin, View):
