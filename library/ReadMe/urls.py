@@ -22,6 +22,7 @@ from .views import ReadMeIndex
 from .views.book_details import BookDetailView
 from .views.reservation import BookReserveView, ReservationView
 from .views.cancel_reservation import cancel_reservation
+from .views.manage_reservations import ManageReservationsView, UpdateReservationStatusView
 
 
 app_name = "ReadMe"
@@ -33,4 +34,6 @@ urlpatterns = [
     path("reservation/<int:pk>/", ReservationView.as_view(), name="reservation"),
     path("reservation/<int:pk>/cancel/", cancel_reservation, name="cancel_reservation"),
     path("books/<int:pk>/reserve/", BookReserveView.as_view(), name="reserve_book"),
+    path("manage/reservations/", ManageReservationsView.as_view(), name="manage_reservations"),
+    path("manage/reservations/<int:pk>/status/", UpdateReservationStatusView.as_view(), name="update_reservation_status"),
 ]
