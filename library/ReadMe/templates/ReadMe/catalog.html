@@ -115,6 +115,7 @@
                             <a
                                 href="?page={{ page_obj.previous_page_number }}&category={{ selected_category|default:'' }}&q={{ search_query|urlencode }}"
                                 data-page="{{ page_obj.previous_page_number }}"
+                                class="text-blue-600 cursor-pointer"
                             >
                                 Précédent
                             </a>
@@ -126,6 +127,7 @@
                             <a
                                 href="?page={{ page_obj.next_page_number }}&category={{ selected_category|default:'' }}&q={{ search_query|urlencode }}"
                                 data-page="{{ page_obj.next_page_number }}"
+                                class="text-blue-600 cursor-pointer"
                             >
                                 Suivant
                             </a>

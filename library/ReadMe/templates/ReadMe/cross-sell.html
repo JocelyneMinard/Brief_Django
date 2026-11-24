@@ -13,60 +13,28 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Carte 1 -->
-            <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
-                <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                <img src="" alt="Shinobi Rebels" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col justify-between flex-1">
-                <div>
-                    <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
-                    SHINOBI REBELS — T.01
-                    </h3>
-                    <p class="text-sm text-gray-500">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                        ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-                </div>
-            </article>
-
-            <!-- Carte 2 -->
-            <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
-                <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                    <img src="" alt="Neo-Tokyo 2099" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col justify-between flex-1">
-                    <div>
-                        <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
-                        NEO-TOKYO 2099 — T.03
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                            ut labore et dolore magna aliqua...
-                        </p>
+            {% for book in featured_books %}
+                 <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
+                    <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden book-detail-cover">
+                        <img src="{{ book.cover_url }}" alt="Couverture de {{ book.title }}" />
                     </div>
-                </div>
-            </article>
-
-            <!-- Carte 3 -->
-            <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
-                <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden">
-                    <img src="" alt="L'Ombre du Samouraï" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col justify-between flex-1">
-                    <div>
+                    <div class="flex flex-col justify-between flex-1">
                         <h3 class="font-extrabold text-sm leading-snug text-gray-900 mb-1">
-                        L'OMBRE DU SAMOURAÏ — T.01
+                            {{ book.title|upper }}
                         </h3>
-                        <p class="text-sm text-gray-500">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                            ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+                
+                        <p class="text-sm text-gray-500 mb-2">
+                            {{ book.summary|default:"Aucune description disponible."|truncatewords:25 }}
                         </p>
+
+                        <a href="{% url 'ReadMe:book_details' book.pk %}"
+                        class="bg-red-500 text-sm font-bold text-white px-2 py-1 border-2 border-gray-900 shadow-hard cursor-pointer self-start">Découvrir</a>
                     </div>
-                </div>
-            </article>
+                </article>
+            {% empty %}
+                <p>Aucune sélection du moment disponible.</p>
+            {% endfor %}
+        
         </div>
     </div>
 </section>

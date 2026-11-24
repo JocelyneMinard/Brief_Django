@@ -7,6 +7,7 @@ from django.views import View
 from django.views.generic import ListView
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
+from .cross_sell import CrossSellMixin
 
 from ..models import (
     ACTIVE_RESERVATION_STATUSES,
@@ -17,7 +18,7 @@ from ..models import (
 
 
 
-class ReservationView(ListView):
+class ReservationView(CrossSellMixin, ListView):
     model = Reservation
     template_name = "ReadMe/reservation.html"
     context_object_name = "reservations"
