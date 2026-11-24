@@ -6,6 +6,9 @@ from django import forms
 class CustomLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['email'].label = "Adresse e-mail"
+        self.fields['password'].label = "Mot de passe"
+
         tailwind_classes = 'w-full border border-gray-300 rounded px-3 py-2 mt-1'
         self.fields['email'].widget.attrs.update({'class': tailwind_classes})
         self.fields['password'].widget.attrs.update({'class': tailwind_classes})
@@ -13,19 +16,22 @@ class CustomLoginForm(AuthenticationForm):
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(
-        max_length=150, required=True, label="First name"
+        max_length=150, required=True, label="Prénom"
     )
     last_name = forms.CharField(
-        max_length=150, required=True, label="Last name"
+        max_length=150, required=True, label="Nom"
     )
-    email = forms.EmailField(required=True, label="Email address")
-
+    email = forms.EmailField(required=True, label="Adresse e-mail")
+  
     class Meta:
         model = User
         fields = ("email", "first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['password1'].label = "Mot de passe"
+        self.fields['password2'].label = "Confirmation du mot de passe"
+
         tailwind_classes = 'w-full border border-gray-300 rounded px-3 py-2 mt-1'
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': tailwind_classes})
