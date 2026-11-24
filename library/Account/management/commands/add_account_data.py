@@ -15,11 +15,11 @@ class Command(BaseCommand):
     help = 'Add data in database from csv file'
 
     def handle(self, *args, **options):
-        counter = 0
-        counter += import_users_from_csv()
+       
+        counter_add, counter_update = import_users_from_csv()
 
         self.stdout.write(
             self.style.SUCCESS(
-                f'Import successful: {counter} users processed.'
+                f'Import successful: {counter_add} users add processed and {counter_update} users update processed.'
             )
         )

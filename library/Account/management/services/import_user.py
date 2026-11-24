@@ -41,7 +41,8 @@ def import_users_from_csv(file_path= None)-> None:
                 # Otherwise, we force the file to be placed in the data/ folder.
                 file_path = settings.BASE_DIR / 'data' / path_obj
 
-    count = 0
+    count_add = 0
+    count_update = 0
     
     try:
         with open(file_path, mode='r', encoding='utf-8') as file:
@@ -57,7 +58,9 @@ def import_users_from_csv(file_path= None)-> None:
                     role = row['role']
                     membership_number = row['numero_adherent']
 
-                    if not User.objects.filter(email=email).exists() and not User.objects.filter(id=user_id).exists():
+                    user = User.objects.filter(id=user_id).first() or User.objects.filter(email=email).first()
+
+                    if not user:
                         User.objects.create_user(
                             id=user_id,   
                             email=email,
@@ -67,7 +70,16 @@ def import_users_from_csv(file_path= None)-> None:
                             role=role,
                             membership_number=membership_number
                         )
-                        count += 1
+                        count_add += 1
+                    else :
+                        user.first_name = first_name
+                        user.last_name = last_name
+                        user.email = email
+                        user.role = role
+                        user.membership_number = membership_number
+                        user.save()
+                        count_update += 1
+                    
                         
                 except KeyError as e:
                     print(f"Missing column error at row {row_index}: key {e} not found.")
@@ -81,5 +93,5 @@ def import_users_from_csv(file_path= None)-> None:
     except Exception as e:
         raise Exception(f"Critical error while opening the CSV file: {e}")
         
-    return count
+    return count_add, count_update
 
