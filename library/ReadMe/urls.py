@@ -20,7 +20,7 @@ from django.urls import path
 from .views.catalog import BookCatalogView
 from .views import ReadMeIndex
 from .views.book_details import BookDetailView
-from .views.reservation import ReservationView
+from .views.reservation import BookReserveView, ReservationView
 from .views.cancel_reservation import cancel_reservation
 
 
@@ -32,4 +32,5 @@ urlpatterns = [
     path("catalogue/<int:pk>/", BookDetailView.as_view(), name="book_details"),
     path("reservation/<int:pk>/", ReservationView.as_view(), name="reservation"),
     path("reservation/<int:pk>/cancel/", cancel_reservation, name="cancel_reservation"),
+    path("books/<int:pk>/reserve/", BookReserveView.as_view(), name="reserve_book"),
 ]

@@ -29,7 +29,7 @@
                 <div class="book-availability">
                     {% if book.available_quantity > 0 %}
                         <span class="availability-pill is-available">
-                            Dispo
+                            Dispo ({{ book.available_quantity }} exemplaire{{ book.available_quantity|pluralize }})
                         </span>
                     {% else %}
                         <span class="availability-pill is-unavailable">
@@ -51,15 +51,37 @@
 
             {% if request.user.is_authenticated %}
                 <div class="book-reservation-action">
-                    <button
-                        type="button"
-                        class="reserve-btn"
-                        {% if book.available_quantity <= 0 %}disabled{% endif %}
-                    >
-                        Réserver
-                    </button>
+                    {% if book.available_quantity > 0 %}
+                        <form
+                            method="post"
+                            action="{% url 'ReadMe:reserve_book' book.pk %}"
+                            class="reserve-form"
+                            data-book-title="{{ book.title }}"
+                        >
+                            {% csrf_token %}
+                            <button type="submit" class="reserve-btn">
+                                Réserver
+                            </button>
+                        </form>
+                    {% else %}
+                        <button type="button" class="reserve-btn" disabled>
+                            Réserver
+                        </button>
+                    {% endif %}
+
+                    <div
+                        id="reservation-feedback"
+                        class="reservation-feedback"
+                        role="status"
+                        aria-live="polite"
+                        hidden
+                    ></div>
                 </div>
             {% endif %}
         </div>
     </article>
+
+    {% if request.user.is_authenticated %}
+        <script src="{% static 'ReadMe/js/book_details.js' %}" defer></script>
+    {% endif %}
 {% endblock %}

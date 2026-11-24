@@ -1,9 +1,11 @@
 from django.db import models
 from django.conf import settings
-from django.db.models import Q  # Q allows you to handle relationships that are more complex than the default “AND” relationship, for filter(), instead of a boolean
+from django.db.models import Q,F  # Q allows you to handle relationships that are more complex than the default “AND” relationship, for filter(), instead of a boolean
 from django.core.exceptions import ValidationError
+from datetime import date, timezone
 
 ACTIVE_RESERVATION_STATUSES = ("en_attente", "prete", "empruntee")
+MAX_ACTIVE_RESERVATIONS_PER_USER = 3
 
 class Category(models.Model):
     """
@@ -60,41 +62,76 @@ class Book(models.Model):
 
 
 class Reservation(models.Model):
-    """
-    Represents an instance of a book reservation made by a user.
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        help_text="User who reserved the book",
+    )
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        null=False,
+        help_text="Book reserved by the user",
+    )
+    status = models.CharField(
+        max_length=50,
+        default="en_attente",
+        null=False,
+        help_text="Actual status of the reservation",
+    )
+    creation_date = models.DateField(
+        null=False,
+        help_text="Date when the reservation was created",
+    )
+    last_update = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Last update of the reservation",
+    )
 
-    Business rules :
-        - Creation date must be between 2026-09-01 and 2026-22-15
-        - An update cannot precede a creation
-    """
-
-    # Use settings.AUTH_USER_MODEL to link reservation and user from django 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text="User who reserved the book")
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False, help_text="Book reserved by the user")
-    status = models.CharField(max_length=50, default='pending', null=False, help_text="Actual status of the reservation")
-    creation_date = models.DateField(null=False, help_text="Date when the reservation was created")
-    last_update = models.DateField(blank=True, null=True, help_text="Last update of the reservation")
-
-    # A native Django class reserved for configuration
     class Meta:
         constraints = [
-            # Check if the creation_date is between the two mandatory dates
             models.CheckConstraint(
-                condition=Q(creation_date__gte='2026-09-01') & Q(creation_date__lte='2026-11-15'),
-                name='check_creation_date_range'
+                condition=Q(creation_date__gte=date(2026, 9, 1))
+                & Q(creation_date__lte=date(2027, 12, 31)),
+                name="check_creation_date_range",
             ),
-            # Check if the update is posterior to the creation
             models.CheckConstraint(
-                condition=Q(last_update__gte=models.F('creation_date')),
-                name='check_status_date_order'
+                condition=Q(last_update__isnull=True)
+                | Q(last_update__gte=F("creation_date")),
+                name="check_status_date_order",
             ),
         ]
 
     def __str__(self):
         return f"Reservation #{self.id} - {self.user} ({self.status})"
 
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.last_update is None:
+            self.last_update = self.creation_date or timezone.localdate()
+        super().save(*args, **kwargs)
+
     def clean(self):
         super().clean()
+
+        if self.creation_date and self.last_update and self.last_update < self.creation_date:
+            raise ValidationError(
+                {"last_update": "La date de mise à jour ne peut pas être antérieure à la date de création."}
+            )
+
+        if self.user_id and self.status in ACTIVE_RESERVATION_STATUSES:
+            user_active_qs = Reservation.objects.filter(
+                user_id=self.user_id,
+                status__in=ACTIVE_RESERVATION_STATUSES,
+            )
+            if self.pk:
+                user_active_qs = user_active_qs.exclude(pk=self.pk)
+
+            if user_active_qs.count() >= MAX_ACTIVE_RESERVATIONS_PER_USER:
+                raise ValidationError(
+                    f"Vous avez déjà atteint la limite de {MAX_ACTIVE_RESERVATIONS_PER_USER} réservations actives."
+                )
+
         if self.book_id and self.status in ACTIVE_RESERVATION_STATUSES:
             active_qs = Reservation.objects.filter(
                 book_id=self.book_id,
