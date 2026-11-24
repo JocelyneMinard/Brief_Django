@@ -2,7 +2,7 @@
     const resultsContainer = document.getElementById("catalog-results");
     const filterForm = document.getElementById("catalog-filter-form");
     const categoryInput = document.getElementById("category-input");
-    const authorInput = document.getElementById("author-input");
+    const searchInput = document.getElementById("search-input");
     const resetBtn = document.getElementById("reset-filters-btn");
     const categoryLinks = document.querySelectorAll("#category-filters .category-pill");
 
@@ -19,11 +19,11 @@
 
     function buildUrlFromState(page = null) {
         const params = new URLSearchParams();
-        const category = (categoryInput.value || "").trim();
-        const author = (authorInput.value || "").trim();
+        const category = (categoryInput?.value || "").trim();
+        const query = (searchInput?.value || "").trim();
 
         if (category) params.set("category", category);
-        if (author) params.set("author", author);
+        if (query) params.set("q", query);
         if (page) params.set("page", String(page));
 
         const queryString = params.toString();
@@ -64,7 +64,7 @@
         link.addEventListener("click", (event) => {
             event.preventDefault();
             const selectedCat = link.dataset.category || "";
-            categoryInput.value = selectedCat;
+            if (categoryInput) categoryInput.value = selectedCat;
             updateActiveCategoryPill(selectedCat);
             loadCatalog(buildUrlFromState(1));
         });
@@ -78,19 +78,21 @@
     });
 
     // Recherche dynamique pendant la saisie (avec léger debounce)
-    authorInput.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            loadCatalog(buildUrlFromState(1));
-        }, 250);
-    });
+    if (searchInput) {
+        searchInput.addEventListener("input", () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                loadCatalog(buildUrlFromState(1));
+            }, 250);
+        });
+    }
 
     // Bouton réinitialiser
     if (resetBtn) {
         resetBtn.addEventListener("click", (event) => {
             event.preventDefault();
-            categoryInput.value = "";
-            authorInput.value = "";
+            if (categoryInput) categoryInput.value = "";
+            if (searchInput) searchInput.value = "";
             updateActiveCategoryPill("");
             loadCatalog(window.location.pathname);
         });
@@ -110,9 +112,9 @@
     window.addEventListener("popstate", () => {
         const params = new URLSearchParams(window.location.search);
         const cat = params.get("category") || "";
-        const author = params.get("author") || "";
-        categoryInput.value = cat;
-        authorInput.value = author;
+        const query = params.get("q") || "";
+        if (categoryInput) categoryInput.value = cat;
+        if (searchInput) searchInput.value = query;
         updateActiveCategoryPill(cat);
         loadCatalog(window.location.href, false);
     });
