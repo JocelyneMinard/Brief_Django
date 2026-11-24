@@ -2,7 +2,7 @@
 
 /* Vos styles supplémentaires */
 .shadow-hard {
-  box-shadow: 4px 4px 0px #111827;
+  box-shadow: 4px 4px 0px #242526;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
@@ -12,13 +12,13 @@
 }
 
 .shadow-hard-sm {
-  box-shadow: 3px 3px 0px #111827;
+  box-shadow: 3px 3px 0px #242526;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .shadow-hard-sm:hover {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px #111827;
+  box-shadow: 2px 2px 0px #242526;
 }
 
 .screentone-bg {
@@ -59,7 +59,6 @@
     top: 1rem;
     padding: 1.25rem;
     border: 1px solid #dee2e6;
-    border-radius: 10px;
     background: #f8f9fa;
 }
 
@@ -67,7 +66,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
 }
 
 .filter-group + .filter-group {
@@ -85,7 +83,6 @@
 .category-pill {
     padding: 0.45rem 0.8rem;
     border: 1px solid #ced4da;
-    border-radius: 8px;
     background: #fff;
     color: #212529;
     text-decoration: none;
@@ -164,7 +161,6 @@
 
 .book-card {
     border: 1px solid #ddd;
-    border-radius: 8px;
     overflow: hidden;
     background: #fff;
     display: flex;
@@ -252,10 +248,8 @@
 
 .book-detail-cover {
     aspect-ratio: 3 / 4.2;
-    border-radius: 12px;
     overflow: hidden;
     background: #1e293b;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
 }
 
 .book-detail-cover img {
@@ -355,20 +349,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    padding: 0.6rem 1.35rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #0f172a;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
     transition: background-color 0.15s ease, opacity 0.15s ease;
-}
-
-.reserve-btn:hover:not(:disabled) {
-    background-color: #1e293b;
 }
 
 .reserve-btn:disabled {

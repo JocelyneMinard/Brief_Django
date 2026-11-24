@@ -13,10 +13,11 @@
     </div>
 
     <article class="book-detail">
-        <div class="book-detail-cover">
+        <div class="book-detail-cover shadow-hard ">
             <img
                 src="{{ cover_url }}"
                 alt="Couverture de {{ book.title }}"
+                class="shadow-hard"
             >
         </div>
 
@@ -59,7 +60,7 @@
                             data-book-title="{{ book.title }}"
                         >
                             {% csrf_token %}
-                            <button type="submit" class="reserve-btn">
+                            <button type="submit" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition reserve-btn">
                                 Réserver
                             </button>
                         </form>
