@@ -1,6 +1,7 @@
 from django.views.generic import ListView
 from django.templatetags.static import static
 import random
+from django.db.models import Q
 
 from ..models import Book, Category
 
@@ -25,7 +26,7 @@ def assign_page_covers(books_page, page_seed: str = "page-1"):
 
 
 class BookCatalogView(ListView):
-    """Affiche le listing paginé des livres avec filtre catégorie et recherche auteur."""
+    """Affiche le listing paginé des livres avec filtre catégorie et recherche mot-clé."""
 
     model = Book
     template_name = "ReadMe/catalog.html"
@@ -36,34 +37,36 @@ class BookCatalogView(ListView):
         raw_category = self.request.GET.get("category", "").strip()
         return int(raw_category) if raw_category.isdigit() else None
 
-    def _get_author_query(self):
-        return self.request.GET.get("author", "").strip()
+    def _get_search_query(self):
+        return self.request.GET.get("q", "").strip()
 
     def get_queryset(self):
         queryset = Book.objects.select_related("category").order_by("title")
         selected_category = self._get_selected_category_id()
-        author_query = self._get_author_query()
+        search_query = self._get_search_query()
 
         if selected_category is not None:
             queryset = queryset.filter(category_id=selected_category)
 
-        if author_query:
-            queryset = queryset.filter(author__icontains=author_query)
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) | Q(author__icontains=search_query)
+            )
 
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_category = self._get_selected_category_id()
-        author_query = self._get_author_query()
+        search_query = self._get_search_query()
 
         page_obj = context.get("page_obj")
         page_number = page_obj.number if page_obj else 1
-        page_seed = f"page-{page_number}-cat-{selected_category or 'all'}-q-{author_query.lower()}"
+        page_seed = f"page-{page_number}-cat-{selected_category or 'all'}-q-{search_query.lower()}"
 
         assign_page_covers(context["books"], page_seed=page_seed)
 
         context["categories"] = Category.objects.order_by("name")
         context["selected_category"] = selected_category
-        context["selected_author"] = author_query
+        context["search_query"] = search_query
         return context

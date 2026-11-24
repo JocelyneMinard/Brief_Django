@@ -38,7 +38,7 @@
                 <h4 class="mb-2">Catégories</h4>
                 <div id="category-filters" class="category-filters" role="group" aria-label="Filtrer par catégorie">
                     <a
-                        href="?{% if selected_author %}author={{ selected_author|urlencode }}{% endif %}"
+                        href="?{% if search_query %}q={{ search_query|urlencode }}{% endif %}"
                         data-category=""
                         class="category-pill {% if not selected_category %}is-active{% endif %}"
                     >
@@ -47,7 +47,7 @@
 
                     {% for category in categories %}
                         <a
-                            href="?category={{ category.pk }}{% if selected_author %}&author={{ selected_author|urlencode }}{% endif %}"
+                            href="?category={{ category.pk }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}"
                             data-category="{{ category.pk }}"
                             class="category-pill shadow-hard {% if category.pk == selected_category %}is-active{% endif %}"
                         >
@@ -61,13 +61,13 @@
                 <form id="catalog-filter-form" method="get" class="catalog-filter">
                     <input type="hidden" name="category" id="category-input" value="{{ selected_category|default:'' }}">
 
-                    <label for="author-input">Auteur :</label>
+                    <label for="search-input">Mot-clé :</label>
                     <input
-                        id="author-input"
+                        id="search-input"
                         type="search"
-                        name="author"
-                        value="{{ selected_author }}"
-                        placeholder="Rechercher un auteur..."
+                        name="q"
+                        value="{{ search_query }}"
+                        placeholder="Titre ou auteur"
                         autocomplete="off"
                     >
 
@@ -113,7 +113,7 @@
                     <nav class="pagination" aria-label="Pagination du catalogue">
                         {% if page_obj.has_previous %}
                             <a
-                                href="?page={{ page_obj.previous_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
+                                href="?page={{ page_obj.previous_page_number }}&category={{ selected_category|default:'' }}&q={{ search_query|urlencode }}"
                                 data-page="{{ page_obj.previous_page_number }}"
                             >
                                 Précédent
@@ -124,7 +124,7 @@
 
                         {% if page_obj.has_next %}
                             <a
-                                href="?page={{ page_obj.next_page_number }}&category={{ selected_category|default:'' }}&author={{ selected_author|urlencode }}"
+                                href="?page={{ page_obj.next_page_number }}&category={{ selected_category|default:'' }}&q={{ search_query|urlencode }}"
                                 data-page="{{ page_obj.next_page_number }}"
                             >
                                 Suivant
