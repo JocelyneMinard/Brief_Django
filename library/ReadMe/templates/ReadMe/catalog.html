@@ -100,8 +100,18 @@
                                     {% if book.category %}
                                         <span class="book-category">{{ book.category.name }}</span>
                                     {% endif %}
-                                </div>
+                                </div>                             
                             </article>
+                            {% if book.summary %}
+                                <div class="manga-bubble" aria-hidden="true">
+                                    <!-- Bubble arrow draw with SVG -->
+                                    <svg class="manga-bubble-tail" viewBox="0 0 40 35" fill="none" xmlns="http://w3.org">
+                                        <path d="M38 2 C25 14, 14 22, 2 32 C16 27, 27 22, 39 14 Z" fill="#ffffff"/>
+                                        <path d="M38 2 C25 14, 14 22, 2 32 C16 27, 27 22, 39 14" stroke="#111827" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>                                    
+                                    <p>{{ book.summary|truncatewords:14 }}</p>
+                                </div>
+                            {% endif %}
                         </a>
                     {% empty %}
                         <p class="empty-catalog">Aucun livre trouvé pour ces critères.</p>
