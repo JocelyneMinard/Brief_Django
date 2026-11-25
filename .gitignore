@@ -3,6 +3,7 @@
 # Database
 *.db
 *data/
+*staticfiles/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
