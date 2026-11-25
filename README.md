@@ -3,8 +3,8 @@
 Welcome to ReadMe Library, your warm and connected neighborhood library. Come borrow books, study or work in a quiet space, and enjoy cultural moments right around the corner.
 
 ## Contributeurs
-+ Mauro Fadika
-+ Audric Gaillard
++ Alex Vandenabeele
++ Benoît Michaux
 + Jocelyne Minard
 
 ## Installation
@@ -51,22 +51,37 @@ Django automatically registers any Python script inside an app's management/comm
 
 ```
 Brief_Django/
-│
-├── .env                            # fichier d'environnements, différents pour chaque poste de travail
-├── _.env_example                   # Example de .env 
-├── requirements.txt                # fichier des dépendances python
-├── Readme.md
-├── main.py                         # script principal (lance la creation de la bdd)
-├── migrations.py                   # méthodes de migrations alembic 
-├── data.py                         # script Data (insère des données dans la base)
-├── alembic.ini                     # fichier d'initialisation du système de migration alembic
-└── app/
-    ├── app.py                      # Script principal de l'application flask
-    ├── static/                     # dossier des fichiers statiques
-    ├── templates/                  # templates HTML + Jinja
+├── _.env_example                    # Example .env 
+├── requirements.txt                 # File for python install
+├── Readme.md                        # Readme file
+└── docs/                            # Folder of project documentation
+└── library/
+    ├── .env                         # env file for configuration
+    ├── manage.py                    # Manage file of Django project
+    ├── Procfile.tailwind/           # File for Tailwing Django
+    ├── database.md                  # Place for database creation
+    └── Account/
+        ├── management/              # 
+        ├── mmigrations/             # 
+        ├── static/                  # 
+        ├── templates/               # 
+        └── files for app...         # 
+    └── library/
+    └── ReadMe/
+        ├── management/              # 
+        ├── mmigrations/             # 
+        ├── static/                  # 
+        ├── templates/               # 
+        ├── views/                   # 
+        └── files for app...         # 
+    └── ReadmeStyle/
+    ├── static/
+    ├── templates/
+    └── staticfiles/                # Place where folder is create with command collectstatics
 └── docs/
 ```
 
+![MCD](docs/RML_uml.png "MCD")
 
 ### Authentification
 For connect by email we need to use another pluging of Django : django-username-email 
@@ -85,3 +100,4 @@ For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.
 + Profil page
 + Catalog pagination
 + UI bonus for sumary of book on catalog page
++ Automatic random allocation cover for book 
