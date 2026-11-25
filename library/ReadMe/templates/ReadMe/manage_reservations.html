@@ -13,6 +13,52 @@
     {% endif %}
 
     <div class="overflow-x-auto bg-white shadow rounded-lg">
+        <form method="get" action="{% url 'ReadMe:manage_reservations' %}" class="mb-6 bg-white p-4 rounded-lg shadow grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+    <div>
+        <label for="filter-status" class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+        <select id="filter-status" name="status" class="w-full rounded-lg border-gray-300 shadow-sm px-3 py-2 text-sm border">
+            <option value="">Tous les statuts</option>
+            {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="filter-user" class="block text-sm font-medium text-gray-700 mb-1">Utilisateur</label>
+        <input
+            id="filter-user"
+            type="text"
+            name="user"
+            value="{{ user_query }}"
+            placeholder="Nom, prénom, email, BIB-..."
+            class="w-full rounded-lg border-gray-300 shadow-sm px-3 py-2 text-sm border"
+        >
+    </div>
+
+    <div>
+        <label for="filter-book" class="block text-sm font-medium text-gray-700 mb-1">Livre</label>
+        <input
+            id="filter-book"
+            type="text"
+            name="book"
+            value="{{ book_query }}"
+            placeholder="Titre, auteur, ISBN..."
+            class="w-full rounded-lg border-gray-300 shadow-sm px-3 py-2 text-sm border"
+        >
+    </div>
+
+    <div class="flex gap-2">
+        <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 cursor-pointer">
+            Filtrer
+        </button>
+        <a href="{% url 'ReadMe:manage_reservations' %}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50">
+            Réinitialiser
+        </a>
+    </div>
+</form>
         <table class="min-w-full text-left text-sm">
             <thead class="border-b bg-gray-50">
                 <tr>
@@ -35,7 +81,10 @@
                             {% if r.can_mark_prete %}
                                 <form method="post" action="{% url 'ReadMe:update_reservation_status' r.pk %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="status" value="prete">
+                                    <input type="hidden" name="new_status" value="prete">
+                                    {% if selected_status %}<input type="hidden" name="status" value="{{ selected_status }}">{% endif %}
+                                    {% if user_query %}<input type="hidden" name="user" value="{{ user_query }}">{% endif %}
+                                    {% if book_query %}<input type="hidden" name="book" value="{{ book_query }}">{% endif %}
                                     <button type="submit" class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer">
                                         Marquer prête
                                     </button>
@@ -45,7 +94,10 @@
                             {% if r.can_mark_empruntee %}
                                 <form method="post" action="{% url 'ReadMe:update_reservation_status' r.pk %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="status" value="empruntee">
+                                    <input type="hidden" name="new_status" value="empruntee">
+                                    {% if selected_status %}<input type="hidden" name="status" value="{{ selected_status }}">{% endif %}
+                                    {% if user_query %}<input type="hidden" name="user" value="{{ user_query }}">{% endif %}
+                                    {% if book_query %}<input type="hidden" name="book" value="{{ book_query }}">{% endif %}
                                     <button type="submit" class="px-3 py-1 rounded bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer">
                                         Marquer empruntée
                                     </button>
@@ -55,7 +107,10 @@
                             {% if r.can_mark_rendue %}
                                 <form method="post" action="{% url 'ReadMe:update_reservation_status' r.pk %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="status" value="rendue">
+                                    <input type="hidden" name="new_status" value="rendue">
+                                    {% if selected_status %}<input type="hidden" name="status" value="{{ selected_status }}">{% endif %}
+                                    {% if user_query %}<input type="hidden" name="user" value="{{ user_query }}">{% endif %}
+                                    {% if book_query %}<input type="hidden" name="book" value="{{ book_query }}">{% endif %}
                                     <button type="submit" class="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 cursor-pointer">
                                         Marquer rendue
                                     </button>
@@ -65,7 +120,10 @@
                             {% if r.can_cancel %}
                                 <form method="post" action="{% url 'ReadMe:update_reservation_status' r.pk %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="status" value="annulee">
+                                    <input type="hidden" name="new_status" value="annulee">
+                                    {% if selected_status %}<input type="hidden" name="status" value="{{ selected_status }}">{% endif %}
+                                    {% if user_query %}<input type="hidden" name="user" value="{{ user_query }}">{% endif %}
+                                    {% if book_query %}<input type="hidden" name="book" value="{{ book_query }}">{% endif %}
                                     <button type="submit" class="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 cursor-pointer">
                                         Annuler
                                     </button>
