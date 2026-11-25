@@ -15,7 +15,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {% for book in featured_books %}
                  <article class="bg-white border-3 border-gray-900 shadow-hard p-3.5 flex gap-4">
-                    <div class="w-24 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden book-detail-cover">
+                    <div class="w-28 h-36 shrink-0 border-2 border-gray-900 bg-zinc-900 overflow-hidden book-detail-cover">
                         <img src="{{ book.cover_url }}" alt="Couverture de {{ book.title }}" />
                     </div>
                     <div class="flex flex-col justify-between flex-1">
