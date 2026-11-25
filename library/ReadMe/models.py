@@ -34,7 +34,7 @@ class Book(models.Model):
     summary = models.TextField(blank=True, null=True, help_text="Summary of the book")
     isbn = models.CharField(max_length=13, unique=True, blank=True, null=True, help_text="Official isbn of the book")
     quantity = models.IntegerField(null=False, help_text="Number of copies of the book")
-
+    early_edition = models.BooleanField(null=True, help_text="Early edition selection")
     # A native Django class reserved for configuration
     class Meta:
         constraints = [

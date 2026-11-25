@@ -23,6 +23,7 @@ from .views.book_details import BookDetailView
 from .views.reservation import BookReserveView, ReservationView
 from .views.cancel_reservation import cancel_reservation
 from .views.manage_reservations import ManageReservationsView, UpdateReservationStatusView
+from .views.early_edition import EarlyEdition
 
 
 app_name = "ReadMe"
@@ -36,4 +37,5 @@ urlpatterns = [
     path("books/<int:pk>/reserve/", BookReserveView.as_view(), name="reserve_book"),
     path("manage/reservations/", ManageReservationsView.as_view(), name="manage_reservations"),
     path("manage/reservations/<int:pk>/status/", UpdateReservationStatusView.as_view(), name="update_reservation_status"),
+    path("manage/early-edition", EarlyEdition.as_view(), name="early_edition"),
 ]

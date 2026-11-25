@@ -10,6 +10,7 @@
             {% if user.is_authenticated %}
                 {% if user.role == "gestionnaire" %}
                     <a href="{% url 'ReadMe:manage_reservations' %}" class="text-gray-600 hover:text-blue-600 transition">Gestion des demandes</a>
+                    <a href="{% url 'ReadMe:early_edition' %}" class="text-gray-600 hover:text-blue-600 transition">À la une</a>
                 {% else %}
                     <a href="{% url 'ReadMe:reservation' user.pk %}" class="text-gray-600 hover:text-blue-600 transition">Mes demandes</a>
                 {% endif %}

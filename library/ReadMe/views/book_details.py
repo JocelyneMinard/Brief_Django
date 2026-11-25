@@ -4,9 +4,11 @@ from django.views.generic import DetailView
 
 from ..models import Book
 from .catalog import COVER_FILES, is_valid_cover_path
+from .cross_sell import CrossSellMixin
 
 
-class BookDetailView(DetailView):
+
+class BookDetailView(CrossSellMixin, DetailView):
     """Affiche la fiche détaillée d'un livre."""
 
     model = Book
