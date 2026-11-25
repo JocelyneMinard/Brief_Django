@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views import View
+from django.urls import reverse
+from urllib.parse import urlencode
 from django.views.generic import ListView
 from django.db.models import Q
 
@@ -95,8 +97,28 @@ class ManageReservationsView(ManagerRequiredMixin, ListView):
 
 
 class UpdateReservationStatusView(ManagerRequiredMixin, View):
+    @staticmethod
+    def _build_redirect_url(request) -> str:
+        base_url = reverse("ReadMe:manage_reservations")
+        raw_status = request.POST.get("status", "").strip()
+        raw_user = request.POST.get("user", "").strip()
+        raw_book = request.POST.get("book", "").strip()
+
+        active_filters = {}
+        if raw_status in STATUS_LABELS:
+            active_filters["status"] = raw_status
+        if raw_user:
+            active_filters["user"] = raw_user
+        if raw_book:
+            active_filters["book"] = raw_book
+
+        if not active_filters:
+            return base_url
+        return f"{base_url}?{urlencode(active_filters)}"
+
     def post(self, request, pk):
-        new_status = request.POST.get("status", "").strip()
+        redirect_url = self._build_redirect_url(request)
+        new_status = request.POST.get("new_status", "").strip()
         reservation = get_object_or_404(Reservation, pk=pk)
         allowed_next = ALLOWED_TRANSITIONS.get(reservation.status, set())
 
@@ -105,7 +127,7 @@ class UpdateReservationStatusView(ManagerRequiredMixin, View):
                 request,
                 f"Transition interdite de « {reservation.status} » vers « {new_status} ».",
             )
-            return redirect("ReadMe:manage_reservations")
+            return redirect(redirect_url)
 
         reservation.status = new_status
         reservation.last_update = timezone.localdate()
@@ -113,17 +135,12 @@ class UpdateReservationStatusView(ManagerRequiredMixin, View):
         try:
             reservation.full_clean()
             reservation.save(update_fields=["status", "last_update"])
-        except ValidationError as exc:
-            reason = "; ".join(
-                msg
-                for msgs in (exc.message_dict.values() if hasattr(exc, "message_dict") else [exc.messages])
-                for msg in msgs
-            )
-            messages.error(request, f"Mise à jour impossible : {reason}")
-            return redirect("ReadMe:manage_reservations")
+        except Exception as exc:
+            messages.error(request, f"Mise à jour impossible : {exc}")
+            return redirect(redirect_url)
 
         messages.success(
             request,
             f"Réservation #{reservation.pk} passée au statut « {STATUS_LABELS.get(new_status, new_status)} ».",
         )
-        return redirect("ReadMe:manage_reservations")
+        return redirect(redirect_url)
