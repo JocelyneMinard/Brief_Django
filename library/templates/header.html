@@ -1,9 +1,17 @@
 {% load static %}
 <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
     <div class="max-w-site mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="/readme/" class="text-xl font-bold text-blue-600">
-             <img src="{% static 'img/RML_logo.jpeg' %}" class="max-w-[60px] w-full h-auto">
-        </a>
+        <div class="mobile-nav">
+            <a href="/readme/" class="text-xl font-bold text-blue-600">
+                <img src="{% static 'img/RML_logo.jpeg' %}" class="max-w-[60px] w-full h-auto">
+            </a>
+            <!-- Mobile button -->
+            <button id="mobile-menu-btn" type="button" class="md:hidden w-24 text-gray-600 hover:text-blue-600 focus:outline-none p-2" aria-label="Ouvrir le menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
         <nav class="hidden md:flex space-x-6">
             <a href="/readme/" class="text-gray-600 hover:text-blue-600 transition">Accueil</a>
             <a href="/readme/catalog" class="text-gray-600 hover:text-blue-600 transition">Catalogue</a>
@@ -18,24 +26,68 @@
                 <a href="/account/register" class="text-gray-600 hover:text-blue-600 transition">Inscription</a>
             {% endif %}
         </nav>
-        {% if user.is_authenticated %}
-
-            <div class="inline-flex">
-                <a href="/account/profile" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
-                    <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-1">
-                    <span>Profil</span>
+        <div class="hidden md:flex">
+            {% if user.is_authenticated %}
+                <div class="inline-flex">
+                    <a href="/account/profile" class="text-gray-600 hover:text-blue-600 transition inline-flex items-center mr-4">
+                        <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-1">
+                        <span>Profil</span>
+                    </a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                            Se déconnecter
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="/account/login" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                    Me connecter
                 </a>
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                        Se déconnecter
-                    </button>
-                </form>
-            </div>
-        {% else %}
-            <a href="/account/login" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                Me connecter
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-5 space-y-3 shadow-lg">
+        <a href="/readme/" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Accueil</a>
+        <a href="/readme/catalog" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Catalogue</a>
+        
+        {% if user.is_authenticated %}
+            {% if user.role == "gestionnaire" %}
+                <a href="{% url 'ReadMe:manage_reservations' %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Gestion des demandes</a>
+                <a href="{% url 'ReadMe:early_edition' %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">À la une</a>
+            {% else %}
+                <a href="{% url 'ReadMe:reservation' user.pk %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Mes demandes</a>
+            {% endif %}
+            
+            <hr class="border-gray-200 my-2">
+            
+            <a href="/account/profile" class="flex items-center text-gray-600 hover:text-blue-600 font-medium py-1">
+                <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-2" alt="Profil">
+                <span>Profil</span>
             </a>
+            <form method="post" action="{% url 'logout' %}" class="pt-2">
+                {% csrf_token %}
+                <button type="submit" class="text-center cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                    Se déconnecter
+                </button>
+            </form>
+        {% else %}
+            <a href="/account/register" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Inscription</a>
+            <div class="pt-2">
+                <a href="/account/login" class="text-center bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                    Me connecter
+                </a>
+            </div>
         {% endif %}
     </div>
 </header>
+<script>
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+</script>

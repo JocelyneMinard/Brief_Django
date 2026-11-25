@@ -15,7 +15,7 @@
                 <span class="bang-outline inline-block text-yellow-400 rotate-12 ml-1">!</span>
             </h1>
             {% if user.is_authenticated %}
-                <h3 class="text-xl sm:text-xl mb-16">Vous souhaite la bienvenue {{ request.user.get_full_name }}.</h1></h3>
+                <h3 class="text-xl sm:text-xl mb-4 md:mb-16">Vous souhaite la bienvenue {{ request.user.get_full_name }}.</h1></h3>
             {% else %}
                 <p class="text-base text-gray-600 mb-8 leading-relaxed">
                     La librairie pensée pour tous les lecteurs, de 7 à 97 ans. Premières lectures, romans captivants ou mangas cultes, chaque génération trouve ici sa prochaine belle histoire.
@@ -24,12 +24,12 @@
 
             <div class="flex flex-wrap gap-4">
                 <a href="/readme/catalog" class="bg-red-500 text-white font-extrabold tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard cursor-pointer">
-                    Explorer le catalogue →
+                    Voir le catalogue&nbsp;→
                 </a>
             </div>
         </div>
 
-        <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
+        <div class="lg:col-span-7 flex items-center justify-center lg:justify-end mb-6 md:mb-0">
             <img 
                 src="{% static 'ReadMe/img/manga_hero.jpg' %}" 
                 alt="Manga ouvert avec scènes d'action" 
