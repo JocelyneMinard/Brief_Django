@@ -5,19 +5,19 @@
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
 {% block content %}
-    <div class="flex flex-col">
-        <h2 class="text-2xl font-bold mb-4">Catalogue des livres</h2>
+    <div class="flex flex-wrap align-center justify-between items-center ">
+        <h2 class="text-xl md:text-2xl font-bold">Catalogue des livres</h2>
 
         <button
             type="button"
             id="toggle-filters-btn"
-            class="toggle-filters-btn"
+            class="toggle-filters-btn bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
             aria-controls="filter-sidebar"
             aria-expanded="false"
         >
             Filtres
         </button>
-        <p class="text-gray-600 mb-4">
+        <p class="text-gray-600 mb-4 w-full">
             Vous pouvez mettre trois livres à la une ({{ featured_count }} / 3 sélectionnés)
         </p>
 
@@ -126,56 +126,58 @@
 
         <section class="catalog-main" aria-label="Résultats du catalogue">
             <div id="catalog-results">
-                <table class="asking_list">
-                    <thead>
-                        <tr>
-                            <th class="text-left font-bold">Titre</th>
-                            <th class="text-left font-bold">Auteur</th>
-                            <th class="text-left font-bold">Categorie</th>
-                            <th class="text-left font-bold">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div class="overflow-x-auto w-full">
+                    <table class="asking_list">
+                        <thead>
+                            <tr>
+                                <th class="text-left font-bold">Titre</th>
+                                <th class="text-left font-bold">Auteur</th>
+                                <th class="text-left font-bold">Categorie</th>
+                                <th class="text-left font-bold">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    {% for book in books %}
-                        <tr>
-                            <td>
-                                <h3 class="book-title">{{ book.title }}</h3>
-                            </td>
-                            <td>
-                                <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
-                            </td>
-                            <td>
-                                {% if book.category %}
-                                    <span class="book-category">{{ book.category.name }}</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="book_id" value="{{ book.id }}">
-                                    
-                                    {% if book.early_edition %}
-                                        <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
-                                            Retirer de la une
-                                        </button>
-                                    {% elif featured_count >= 3 %}
-                                        <button type="button" disabled class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">
-                                            Mettre à la une
-                                        </button>
-                                    {% else %}
-                                        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                                            Mettre à la une
-                                        </button>
+                        {% for book in books %}
+                            <tr>
+                                <td>
+                                    <h3 class="book-title">{{ book.title }}</h3>
+                                </td>
+                                <td>
+                                    <p class="book-author">{{ book.author|default:"Auteur inconnu" }}</p>
+                                </td>
+                                <td>
+                                    {% if book.category %}
+                                        <span class="book-category">{{ book.category.name }}</span>
                                     {% endif %}
-                                </form>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr><td colspan="4"><p class="empty-catalog">Aucun livre trouvé pour ces critères.</p></td></tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="book_id" value="{{ book.id }}">
+                                        
+                                        {% if book.early_edition %}
+                                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                                Retirer de la une
+                                            </button>
+                                        {% elif featured_count >= 3 %}
+                                            <button type="button" disabled class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">
+                                                Mettre à la une
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                                Mettre à la une
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="4"><p class="empty-catalog">Aucun livre trouvé pour ces critères.</p></td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
                 {% if is_paginated %}
                     <nav class="pagination" aria-label="Pagination du catalogue">
@@ -206,4 +208,5 @@
         </section>
     </div>
 
+    <script src="{% static 'ReadMe/js/early_edition.js' %}"></script>
 {% endblock %}

@@ -5,12 +5,12 @@
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
 {% block content %}
-    <div class="catalog-header">
-        <h2 class="text-2xl font-bold mb-4">Catalogue des livres</h2>
+    <div class="catalog-header align-center justify-between items-center ">
+        <h2 class="text-xl md:text-2xl font-bold mb-4">Catalogue des livres</h2>
         <button
             type="button"
             id="toggle-filters-btn"
-            class="toggle-filters-btn"
+            class="toggle-filters-btn bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
             aria-controls="filter-sidebar"
             aria-expanded="false"
         >

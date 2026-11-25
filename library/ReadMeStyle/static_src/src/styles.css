@@ -9,5 +9,20 @@
   */
 @source "../../../**/*.{html,py,js}";
 
+@media (width <= 48rem) { /* md */
+	.mobile-nav{
+		display: inline-flex;
+		flex-flow: row;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.mobile-nav button{
+		width: 24px;
+		height: 24px;
+		display: contents
+	}
+}
 
 @import "tailwindcss";

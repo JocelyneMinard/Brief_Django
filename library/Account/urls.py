@@ -5,7 +5,6 @@ from .views import RegisterView
 from . import views
 
 urlpatterns = [
-    path("", include("ReadMe.urls")),
     path(
         'login/',
         auth_views.LoginView.as_view(
