@@ -20,7 +20,7 @@ from ..models import (
 from .cross_sell import CrossSellMixin
 
 
-class ReservationView(CrossSellMixin, ListView):
+class ReservationView(LoginRequiredMixin,CrossSellMixin, ListView):
     """
     Display a user's reservations filtered by status group along with cross-sell data
     """
@@ -45,7 +45,7 @@ class ReservationView(CrossSellMixin, ListView):
 
         # Preload book to avoid other queries when rendering titles in the template.
         queryset: QuerySet[Reservation] = (
-            Reservation.objects.filter(user_id=user_id)
+            Reservation.objects.filter(user=self.request.user)
             .select_related("book")
             .order_by("-creation_date")
         )

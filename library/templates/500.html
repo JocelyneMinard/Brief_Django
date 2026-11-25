@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}403 - Accès interdit{% endblock %}
+
+{% block content %}
+ <section class="">
+      <div class="mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
+        
+        <div class="lg:col-span-5">
+            <h1 class="text-4xl sm:text-5xl font-black uppercase leading-none tracking-tight text-gray-900 mb-5">
+                500<span class="text-red-500">.</span>
+                <span class="bang-outline inline-block text-yellow-400 rotate-12 ml-1">!</span>
+            </h1>
+            <p class="text-xl font-bold">Erreur du serveur</p>
+
+            <p class="lead mt-4 mb-4">
+                {% if exception %}
+                    {{ exception }}
+                {% endif %}
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+                <a href="/readme/" class="bg-red-500 text-white font-extrabold tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard cursor-pointer">
+                    Retourner à l'accueil&nbsp;→
+                </a>
+            </div>
+        </div>
+
+        <div class="lg:col-span-7 flex items-center justify-center lg:justify-end mb-6 md:mb-0">
+            <img 
+                src="{% static 'img/500.png' %}" 
+                alt="Manga ouvert avec scènes d'action" 
+                class="w-full max-w-[600px] h-auto object-contain mix-blend-multiply"
+            >
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

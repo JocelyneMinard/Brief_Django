@@ -30,7 +30,7 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  + [Profil](http://127.0.0.1:8000/account/profil/) only for connect user
  + [Edit profil](http://127.0.0.1:8000/account/edit/) only for connect user
  + [Registration](http://127.0.0.1:8000/account/register/)
- + [Reservation](http://127.0.0.1:8000/readme/reservation/<int:pk>/) only for connect user
+ + [Reservation](http://127.0.0.1:8000/readme/reservation/) only for connect user
  + [Manage reservation](http://127.0.0.1:8000/readme/manage/reservations/) only for staff
  + [Manage early edition](http://127.0.0.1:8000/readme/manage/early-edition) only for staff
 
@@ -88,8 +88,8 @@ For connect by email we need to use another pluging of Django : django-username-
 
 
 ### Interface
-The logo , homepage illustration and manga bubble arrow (catalog page) is generate by AI.  
-Icon user is download on free svg library.  
+The logo , all illustration inside pages is generate by AI.  
+Icon is download on free svg library.  
 For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.  
 
 ## Features bonus
@@ -101,3 +101,4 @@ For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.
 + Catalog pagination
 + UI bonus for sumary of book on catalog page
 + Automatic random allocation cover for book 
++ Page 403, 404 and 500

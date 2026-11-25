@@ -25,14 +25,13 @@ from .views.cancel_reservation import cancel_reservation
 from .views.manage_reservations import ManageReservationsView, UpdateReservationStatusView
 from .views.early_edition import EarlyEdition
 
-
 app_name = "ReadMe"
 
 urlpatterns = [
     path('', ReadMeIndex.as_view(), name='index'),
     path("catalog/", BookCatalogView.as_view(), name="catalog"),
     path("catalogue/<int:pk>/", BookDetailView.as_view(), name="book_details"),
-    path("reservation/<int:pk>/", ReservationView.as_view(), name="reservation"),
+    path("reservation/", ReservationView.as_view(), name="reservation"),
     path("reservation/<int:pk>/cancel/", cancel_reservation, name="cancel_reservation"),
     path("books/<int:pk>/reserve/", BookReserveView.as_view(), name="reserve_book"),
     path("manage/reservations/", ManageReservationsView.as_view(), name="manage_reservations"),
