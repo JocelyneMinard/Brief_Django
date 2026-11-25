@@ -50,7 +50,7 @@
                 </div>
             {% endif %}
 
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and request.user.role == "utilisateur" %}
                 <div class="book-reservation-action">
                     {% if book.available_quantity > 0 %}
                         <form
