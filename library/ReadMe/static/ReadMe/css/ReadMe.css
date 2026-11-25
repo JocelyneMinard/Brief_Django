@@ -459,6 +459,29 @@
     }
 
     
+    /* Inverse bubble when we are on the right of screen / every 2 card     */
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: auto;
+        right: 55%;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: auto;
+        right: -18px;
+        transform: scaleX(-1); /* Retourne la pointe en miroir */
+    }
+}
+
+
+@media (min-width: 988px) {
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: 55%;
+        right: auto;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: -18px;
+        right: -auto;
+        transform: scaleX(1); 
+    }
     /* Inverse bubble when we are on the right of screen / every 3 card     */
     .catalog-grid .book-card-link:nth-child(3n) .manga-bubble {
         left: auto;

@@ -2,6 +2,10 @@
 
 Welcome to ReadMe Library, your warm and connected neighborhood library. Come borrow books, study or work in a quiet space, and enjoy cultural moments right around the corner.
 
+## Contributeurs
++ Mauro Fadika
++ Audric Gaillard
++ Jocelyne Minard
 
 ## Installation
 ```pip install -r requierements.txt```
@@ -39,17 +43,38 @@ The use of SQLite is directly mandated by the project brief.
 
 ### Task management 
 https://kabane.spendbaker.com/boards/kabane-tour-3989bb0d/wide
+![Screenshot Kabane](docs/kabane.png "Start work with Kabane")
+
 
 ### Structure
-Django automatically registers any Python script inside an app's management/commands/ directory as long as it doesn't start with an underscore. **[Django documentation](https://docs.djangoproject.com/en/6.1/howto/custom-management-commands/)
+Django automatically registers any Python script inside an app's management/commands/ directory as long as it doesn't start with an underscore. **[Django documentation**](https://docs.djangoproject.com/en/6.1/howto/custom-management-commands/)**
+
+```
+Brief_Django/
+│
+├── .env                            # fichier d'environnements, différents pour chaque poste de travail
+├── _.env_example                   # Example de .env 
+├── requirements.txt                # fichier des dépendances python
+├── Readme.md
+├── main.py                         # script principal (lance la creation de la bdd)
+├── migrations.py                   # méthodes de migrations alembic 
+├── data.py                         # script Data (insère des données dans la base)
+├── alembic.ini                     # fichier d'initialisation du système de migration alembic
+└── app/
+    ├── app.py                      # Script principal de l'application flask
+    ├── static/                     # dossier des fichiers statiques
+    ├── templates/                  # templates HTML + Jinja
+└── docs/
+```
+
 
 ### Authentification
 For connect by email we need to use another pluging of Django : django-username-email 
 
 
 ### Interface
-The logo , homepage illustration is generate by AI.  
-Icon is download on free svg library.  
+The logo , homepage illustration and manga bubble arrow (catalog page) is generate by AI.  
+Icon user is download on free svg library.  
 For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.  
 
 ## Features bonus
@@ -59,3 +84,4 @@ For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.
 + Cross-sell Early edition on index, reservation and book details
 + Profil page
 + Catalog pagination
++ UI bonus for sumary of book on catalog page
