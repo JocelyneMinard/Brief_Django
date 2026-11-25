@@ -1,3 +1,7 @@
+/***************************************************************
+ JS of the catalog page exclusively
+ ***************************************************************/
+
 (() => {
     const resultsContainer = document.getElementById("catalog-results");
     const filterForm = document.getElementById("catalog-filter-form");
@@ -6,10 +10,15 @@
     const resetBtn = document.getElementById("reset-filters-btn");
     const categoryLinks = document.querySelectorAll("#category-filters .category-pill");
 
+    // Exit early if the core catalog elements are not present on the current page
     if (!resultsContainer || !filterForm) return;
 
     let debounceTimer = null;
 
+    /**
+     * Highlight the category pill matching the active category value
+     * @param {string} categoryValue - Currently selected category identifier or empty string.
+     */
     function updateActiveCategoryPill(categoryValue) {
         categoryLinks.forEach((link) => {
             const linkCategory = link.dataset.category || "";
@@ -17,6 +26,11 @@
         });
     }
 
+    /**
+     * Build a catalog URL with active category, search query, and optional page parameters
+     * @param {number|string|null} [page=null] - Target page number to include in query params
+     * @returns {string} Constructed relative URL
+     */
     function buildUrlFromState(page = null) {
         const params = new URLSearchParams();
         const category = (categoryInput?.value || "").trim();
@@ -30,6 +44,12 @@
         return queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
     }
 
+    /**
+     * Fetch updated catalog HTML asynchronously and replace the results container.
+     * Falls back to a full page navigation on fetch or parsing errors.
+     * @param {string} url - Target catalog URL to fetch.
+     * @param {boolean} [pushHistory=true] - Whether to push a new entry into browser history.
+     */
     async function loadCatalog(url, pushHistory = true) {
         resultsContainer.classList.add("is-loading");
 
@@ -59,7 +79,7 @@
         }
     }
 
-    // Clic sur une catégorie (div / lien stylisé)
+    // Filter by category pill click and reset pagination to page 1
     categoryLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
             event.preventDefault();
@@ -70,14 +90,14 @@
         });
     });
 
-    // Soumission du formulaire (entrée ou clic sur Rechercher)
+    // Handle explicit form submission (Enter key or search button)
     filterForm.addEventListener("submit", (event) => {
         event.preventDefault();
         clearTimeout(debounceTimer);
         loadCatalog(buildUrlFromState(1));
     });
 
-    // Recherche dynamique pendant la saisie (avec léger debounce)
+    // Debounce live search requests while typing in the search input
     if (searchInput) {
         searchInput.addEventListener("input", () => {
             clearTimeout(debounceTimer);
@@ -87,7 +107,7 @@
         });
     }
 
-    // Bouton réinitialiser
+    // Clear active filters and reload the unfiltered catalog base URL
     if (resetBtn) {
         resetBtn.addEventListener("click", (event) => {
             event.preventDefault();
@@ -98,7 +118,7 @@
         });
     }
 
-    // Pagination asynchrone (délégation d'événement car #catalog-results est remplacé)
+    // Delegate pagination clicks because #catalog-results inner HTML is replaced dynamically
     resultsContainer.addEventListener("click", (event) => {
         const pageLink = event.target.closest(".pagination a[data-page]");
         if (!pageLink) return;
@@ -108,7 +128,7 @@
         loadCatalog(buildUrlFromState(page));
     });
 
-    // Support des boutons Précédent / Suivant du navigateur
+    // Sync filter inputs, active pill, and results when using browser Back/Forward buttons
     window.addEventListener("popstate", () => {
         const params = new URLSearchParams(window.location.search);
         const cat = params.get("category") || "";
@@ -125,6 +145,10 @@ const toggleBtn = document.getElementById("toggle-filters-btn");
 const closeBtn = document.getElementById("close-filters-btn");
 const backdrop = document.getElementById("sidebar-backdrop");
 
+/**
+ * Open or close the mobile filter sidebar and sync ARIA/backdrop/scroll state.
+ * @param {boolean} isOpen - Desired open state for the sidebar.
+ */
 function setSidebarOpen(isOpen) {
     if (!sidebar) return;
     sidebar.classList.toggle("is-open", isOpen);
@@ -134,9 +158,11 @@ function setSidebarOpen(isOpen) {
     if (backdrop) {
         backdrop.hidden = !isOpen;
     }
+    // Lock background scrolling only when the mobile drawer is open on small viewports.
     document.body.style.overflow = isOpen && window.innerWidth <= 768 ? "hidden" : "";
 }
 
+// Toggle drawer visibility from the filter button.
 if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
         const isCurrentlyOpen = sidebar?.classList.contains("is-open");
@@ -144,21 +170,24 @@ if (toggleBtn) {
     });
 }
 
+// Close drawer via the explicit close button.
 if (closeBtn) {
     closeBtn.addEventListener("click", () => setSidebarOpen(false));
 }
 
+// Close drawer when clicking the dimmed backdrop overlay.
 if (backdrop) {
     backdrop.addEventListener("click", () => setSidebarOpen(false));
 }
 
+// Close drawer when pressing Escape while open.
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && sidebar?.classList.contains("is-open")) {
         setSidebarOpen(false);
     }
 });
 
-// Ferme automatiquement le tiroir sur mobile après un clic sur une catégorie ou un reset
+// Automatically close the mobile drawer after selecting a category or resetting filters.
 document.addEventListener("click", (event) => {
     if (window.innerWidth > 768) return;
     if (event.target.closest("#category-filters .category-pill") || event.target.closest("#reset-filters-btn")) {
@@ -166,6 +195,7 @@ document.addEventListener("click", (event) => {
     }
 });
 
+// Reset drawer state when resizing from mobile to desktop layout.
 window.addEventListener("resize", () => {
     if (window.innerWidth > 768) {
         setSidebarOpen(false);
