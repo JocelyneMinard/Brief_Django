@@ -97,17 +97,21 @@
         <p class="mb-4">
             <span class="flex">
                 Aucune demande 
-                {% if active_tab == "active" %}prête ou empruntée
-                {% elif active_tab == "pending" %}en attente
-                {% elif active_tab == "archived" %}terminée ou annulée
-                {% elif active_tab == "all" %} en cours
+                {% if active_tab == "active" %}prête ou empruntée.
+                {% elif active_tab == "pending" %}en attente.
+                {% elif active_tab == "archived" %}terminée ou annulée.
+                {% elif active_tab == "all" %} en cours.
                 </span>
                 <a href="/readme/catalog" class="inline-flex bg-red-500 text-white font-extrabold text-xs tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard cursor-pointer">
                     EXPLORER LE CATALOGUE →
                 </a>
-            {% endif %}.
+            {% endif %}
         </p>
     {% endif %}
+
+    <br class="mb-8" />
+    
+    {% include "ReadMe/cross-sell.html" %}
     <script>
         setTimeout(() => {
             document.querySelectorAll('.alert-message').forEach((el) => {

@@ -82,6 +82,7 @@
         </div>
     </article>
 
+    {% include "ReadMe/cross-sell.html" %}
     {% if request.user.is_authenticated %}
         <script src="{% static 'ReadMe/js/book_details.js' %}" defer></script>
     {% endif %}
