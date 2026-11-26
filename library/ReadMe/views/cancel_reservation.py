@@ -7,7 +7,7 @@ from ..models import Reservation
 @login_required
 @require_POST
 def cancel_reservation(request, pk):
-    # Récupère la réservation UNIQUEMENT si elle appartient à l'utilisateur connecté
+    # take reservation only for the self user
     reservation = get_object_or_404(Reservation, pk=pk, user=request.user)
 
     if reservation.status in ["prete", "en_attente"]:
@@ -17,5 +17,5 @@ def cancel_reservation(request, pk):
     else:
         messages.error(request, "Cette réservation ne peut plus être annulée.")
 
-    # Redirige vers la liste des demandes de l'utilisateur
-    return redirect("ReadMe:reservation", pk=request.user.pk)
+    # Redirect to user reservation
+    return redirect("ReadMe:reservation")

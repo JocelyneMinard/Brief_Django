@@ -20,7 +20,7 @@
                     <a href="{% url 'ReadMe:manage_reservations' %}" class="text-gray-600 hover:text-blue-600 transition">Gestion des demandes</a>
                     <a href="{% url 'ReadMe:early_edition' %}" class="text-gray-600 hover:text-blue-600 transition">À la une</a>
                 {% else %}
-                    <a href="{% url 'ReadMe:reservation' user.pk %}" class="text-gray-600 hover:text-blue-600 transition">Mes demandes</a>
+                    <a href="{% url 'ReadMe:reservation' %}" class="text-gray-600 hover:text-blue-600 transition">Mes demandes</a>
                 {% endif %}
             {% else %}
                 <a href="/account/register" class="text-gray-600 hover:text-blue-600 transition">Inscription</a>
@@ -58,7 +58,7 @@
                 <a href="{% url 'ReadMe:manage_reservations' %}" class="block text-gray-600 hover:text-blue-600 py-1">Gestion des demandes</a>
                 <a href="{% url 'ReadMe:early_edition' %}" class="block text-gray-600 hover:text-blue-600 py-1">À la une</a>
             {% else %}
-                <a href="{% url 'ReadMe:reservation' user.pk %}" class="block text-gray-600 hover:text-blue-600 py-1">Mes demandes</a>
+                <a href="{% url 'ReadMe:reservation' %}" class="block text-gray-600 hover:text-blue-600 font-bold py-1">Mes demandes</a>
             {% endif %}
             
             <hr class="border-gray-200 my-2">
