@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load static %}
 {% block extra_css %}
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
-{% block title %}{{ book.title }} — Bibliothèque{% endblock %}
+{% block title %}{{ book.title }} — Bibliothèque ReadMe{% endblock %}
 
 {% block content %}
     <div class="book-detail-actions">

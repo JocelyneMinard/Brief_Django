@@ -4,9 +4,11 @@
 {% block extra_css %}
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
+
+{% block title %}À la une - Bibliothèque ReadMe{% endblock %}
 {% block content %}
     <div class="flex flex-wrap align-center justify-between items-center ">
-        <h2 class="text-xl md:text-2xl font-bold">Catalogue des livres</h2>
+        <h2 class="text-xl md:text-2xl font-bold">Gestion des livres à la une</h2>
 
         <button
             type="button"
@@ -132,7 +134,7 @@
                             <tr>
                                 <th class="text-left font-bold">Titre</th>
                                 <th class="text-left font-bold">Auteur</th>
-                                <th class="text-left font-bold">Categorie</th>
+                                <th class="text-left font-bold">Catégorie</th>
                                 <th class="text-left font-bold">Actions</th>
                             </tr>
                         </thead>
