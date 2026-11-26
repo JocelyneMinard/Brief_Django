@@ -17,9 +17,11 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  cd library
  python manage.py migrate
  python manage.py add_data
+ python manage.py tailwind start
  python manage.py collectstatic
  python manage.py runserver
  ```
+[Go to](http://127.0.0.1:8000/readme/)
 
  ## Mandatory Urls
  + [Home](http://127.0.0.1:8000/readme/)
