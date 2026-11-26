@@ -24,7 +24,7 @@
                         </h3>
                 
                         <p class="text-sm text-gray-500 mb-2">
-                            {{ book.summary|default:"Aucune description disponible."|truncatewords:25 }}
+                            {{ book.summary|default:"Aucune description disponible."|truncatewords:12 }}
                         </p>
 
                         <a href="{% url 'ReadMe:book_details' book.pk %}"

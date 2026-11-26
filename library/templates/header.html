@@ -35,13 +35,13 @@
                     </a>
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                        <button type="submit" class="font-bold cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
                             Se déconnecter
                         </button>
                     </form>
                 </div>
             {% else %}
-                <a href="/account/login" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                <a href="/account/login" class="font-bold cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
                     Me connecter
                 </a>
             {% endif %}
@@ -49,34 +49,34 @@
     </div>
     
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-5 space-y-3 shadow-lg">
-        <a href="/readme/" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Accueil</a>
-        <a href="/readme/catalog" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Catalogue</a>
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-5 space-y-3 shadow-lg">
+        <a href="/readme/" class="block text-gray-600 hover:text-blue-600 py-1">Accueil</a>
+        <a href="/readme/catalog" class="block text-gray-600 hover:text-blue-600  py-1">Catalogue</a>
         
         {% if user.is_authenticated %}
             {% if user.role == "gestionnaire" %}
-                <a href="{% url 'ReadMe:manage_reservations' %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Gestion des demandes</a>
-                <a href="{% url 'ReadMe:early_edition' %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">À la une</a>
+                <a href="{% url 'ReadMe:manage_reservations' %}" class="block text-gray-600 hover:text-blue-600 py-1">Gestion des demandes</a>
+                <a href="{% url 'ReadMe:early_edition' %}" class="block text-gray-600 hover:text-blue-600 py-1">À la une</a>
             {% else %}
-                <a href="{% url 'ReadMe:reservation' user.pk %}" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Mes demandes</a>
+                <a href="{% url 'ReadMe:reservation' user.pk %}" class="block text-gray-600 hover:text-blue-600 py-1">Mes demandes</a>
             {% endif %}
             
             <hr class="border-gray-200 my-2">
             
-            <a href="/account/profile" class="flex items-center text-gray-600 hover:text-blue-600 font-medium py-1">
+            <a href="/account/profile" class="flex items-center text-gray-600 hover:text-blue-600  py-1">
                 <img src="{% static 'img/user.svg' %}" class="max-w-[16px] h-auto mr-2" alt="Profil">
                 <span>Profil</span>
             </a>
             <form method="post" action="{% url 'logout' %}" class="pt-2">
                 {% csrf_token %}
-                <button type="submit" class="text-center cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                <button type="submit" class="text-center cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition">
                     Se déconnecter
                 </button>
             </form>
         {% else %}
-            <a href="/account/register" class="block text-gray-600 hover:text-blue-600 font-medium py-1">Inscription</a>
+            <a href="/account/register" class="block text-gray-600 hover:text-blue-600 py-1">Inscription</a>
             <div class="pt-2">
-                <a href="/account/login" class="text-center bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                <a href="/account/login" class="text-center bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition">
                     Me connecter
                 </a>
             </div>

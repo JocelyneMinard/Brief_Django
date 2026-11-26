@@ -109,7 +109,9 @@
 .book-card-link {
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex;
+    position: relative;
+    z-index: 1
 }
 
 .sidebar-backdrop {
@@ -163,6 +165,7 @@
     background: #fff;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .book-cover img {
@@ -397,4 +400,110 @@
 .asking_list tr td{
   border-bottom: 1px solid #808080;
   padding: .5rem 0
+}
+
+/******************* Manga-bubbled *************************/
+
+/* Hidden on mobile */
+.manga-bubble {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    /* show bubble before all thing */
+    .book-card-link:hover {
+        z-index: 50;
+    }
+
+    .manga-bubble {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        
+        /* Put bubble on top right */
+        top: -45px;
+        left: 55%;
+        width: 245px;
+        min-height: 135px;
+        padding: 1.35rem 1.75rem; /* big padding on bubble */
+        background: #ffffff;
+        color: #111827;
+        border: 3px solid #111827;
+        border-radius: 50%; /* Forme ovale parfaite */
+        box-shadow: 4px 5px 0px #111827;
+        z-index: 60;
+        pointer-events: none;
+        text-align: center;
+
+        /* Animation Pop */
+        opacity: 0;
+        transform: scale(0.85) translateY(8px);
+        transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .manga-bubble p {
+        font-family: 'Comic Neue', sans-serif;
+        font-style: oblique;
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.3;
+        font-weight: 700;
+        color: #555;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* position of manga bubble arrow */
+    .manga-bubble-tail {
+        position: absolute;
+        bottom: 6px;
+        left: -18px;
+        width: 42px;
+        height: 36px;
+        z-index: 2;
+    }
+
+    /* Show on hover */
+    .book-card-link:hover .manga-bubble {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    
+    /* Inverse bubble when we are on the right of screen / every 2 card     */
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: auto;
+        right: 55%;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: auto;
+        right: -18px;
+        transform: scaleX(-1); /* Retourne la pointe en miroir */
+    }
+}
+
+
+@media (min-width: 988px) {
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: 55%;
+        right: auto;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: -18px;
+        right: -auto;
+        transform: scaleX(1); 
+    }
+    /* Inverse bubble when we are on the right of screen / every 3 card     */
+    .catalog-grid .book-card-link:nth-child(3n) .manga-bubble {
+        left: auto;
+        right: 55%;
+    }
+    .catalog-grid .book-card-link:nth-child(3n) .manga-bubble-tail {
+        left: auto;
+        right: -18px;
+        transform: scaleX(-1); /* Retourne la pointe en miroir */
+    }
 }

@@ -9,6 +9,10 @@
   */
 @source "../../../**/*.{html,py,js}";
 
+header, .mobile-menu{
+	font-weight: bold
+}
+
 @media (width <= 48rem) { /* md */
 	.mobile-nav{
 		display: inline-flex;
