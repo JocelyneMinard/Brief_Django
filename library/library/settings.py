@@ -169,17 +169,3 @@ SECURE_HSTS_SECONDS = 31536000
 AUTH_USER_MODEL = 'Account.User'
 LOGOUT_REDIRECT_URL = "/readme/"
 LOGIN_REDIRECT_URL = "/readme/"
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'ERROR',
-    },
-}
