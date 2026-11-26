@@ -2,17 +2,17 @@
 
 Welcome to ReadMe Library, your warm and connected neighborhood library. Come borrow books, study or work in a quiet space, and enjoy cultural moments right around the corner.
 
-## Contributeurs
+## Contributors
 + Alex Vandenabeele
 + Benoît Michaux
 + Jocelyne Minard
 
 ## Installation
-```pip install -r requierements.txt```
+```pip install -r requirements.txt```
 
  After this please ask coworker for have data or organisation member:
  Put data folder inside project folder library  
- Create your .env file, preconise DEBUG FALSE
+ Create your .env file, we recommend setting DEBUG=False 
  ```
  cd library
  python manage.py migrate
@@ -25,18 +25,24 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  + [Home](http://127.0.0.1:8000/readme/)
  + [Catalog](http://127.0.0.1:8000/readme/catalog/)
  + [Book details](http://127.0.0.1:8000/readme/catalogue/274/?cover=ReadMe/img/covers/cover-11.jpg)
- + [Connection](http://127.0.0.1:8000/account/login/)
- + [Disconnect](http://127.0.0.1:8000/account/logout/) but this url is not accessible 
- + [Profil](http://127.0.0.1:8000/account/profil/) only for connect user
- + [Edit profil](http://127.0.0.1:8000/account/edit/) only for connect user
+ + [Login](http://127.0.0.1:8000/account/login/)
+ + [Logout](http://127.0.0.1:8000/account/logout/) only accessible via POST request, not directly via URL
+ + [Profile](http://127.0.0.1:8000/account/profile/) only for logged-in users
+ + [Edit profile](http://127.0.0.1:8000/account/edit/) only for logged-in users
  + [Registration](http://127.0.0.1:8000/account/register/)
- + [Reservation](http://127.0.0.1:8000/readme/reservation/) only for connect user
+ + [Reservation](http://127.0.0.1:8000/readme/reservation/) only for logged-in users
  + [Manage reservation](http://127.0.0.1:8000/readme/manage/reservations/) only for staff
  + [Manage early edition](http://127.0.0.1:8000/readme/manage/early-edition) only for staff
 
-## Technical choices
+## Technical Choices
+### DB Constraints
+We changed one constraint because the date given in the brief blocks new reservations  
+"Date de la demande, entre le 2026-09-01 et le 2026-11-15"
+If we keep this, all new reservations are blocked, so we set the limit to December 31st, 2027
+
 ### dbdiagram
 We selected **[dbdiagram.io](https://dbdiagram.io/home)** for database modeling due to its simplicity, zero-install browser interface, and free tier. Using plain-text DBML syntax makes it natively Git-compatible for easy version control, while built-in AI features remain optionally available if needed.
+![MCD](docs/RML_uml.png "MCD")
 
 ### SQLite
 The use of SQLite is directly mandated by the project brief.
@@ -44,7 +50,6 @@ The use of SQLite is directly mandated by the project brief.
 ### Task management 
 https://kabane.spendbaker.com/boards/kabane-tour-3989bb0d/wide
 ![Screenshot Kabane](docs/kabane.png "Start work with Kabane")
-
 
 ### Structure
 Django automatically registers any Python script inside an app's management/commands/ directory as long as it doesn't start with an underscore. **[Django documentation**](https://docs.djangoproject.com/en/6.1/howto/custom-management-commands/)**
@@ -61,44 +66,44 @@ Brief_Django/
     ├── Procfile.tailwind/           # File for Tailwing Django
     ├── database.md                  # Place for database creation
     └── Account/
-        ├── management/              # 
-        ├── mmigrations/             # 
-        ├── static/                  # 
-        ├── templates/               # 
+        ├── management/              # Folder for create command
+        ├── migrations/              # Folder for DB migrations
+        ├── static/                  # Static files, CSS, JS and IMG 
+        ├── templates/               # HTML templates
         └── files for app...         # 
-    └── library/
-    └── ReadMe/
-        ├── management/              # 
-        ├── mmigrations/             # 
-        ├── static/                  # 
-        ├── templates/               # 
-        ├── views/                   # 
+    └── library/                     # Base App with settings
+    └── ReadMe/                      # ReadMe App
+        ├── management/              # Folder for create command
+        ├── migrations/              # Folder for DB migrations
+        ├── static/                  # Static files, CSS, JS and IMG 
+        ├── templates/               # HTML templates
+        ├── views/                   # Folder for all views
         └── files for app...         # 
-    └── ReadmeStyle/
-    ├── static/
-    ├── templates/
-    └── staticfiles/                # Place where folder is create with command collectstatics
-└── docs/
+    └── ReadmeStyle/                 # Tailwind folder
+    ├── static/                      # Statics files, CSS, JS and IMG 
+    ├── templates/                   # HTML base templates
+    └── staticfiles/                 # Place where folder is create with command collectstatic
 ```
 
-![MCD](docs/RML_uml.png "MCD")
 
-### Authentification
-For connect by email we need to use another pluging of Django : django-username-email 
-
+### Authentication
+ To log in by email, we used an additional Django plugin: django-username-email 
 
 ### Interface
-The logo , all illustration inside pages is generate by AI.  
-Icon is download on free svg library.  
+All illustrations inside the pages are generated by AI.  
+Icons were downloaded from a free SVG library.   
 For lang we change settings variables LANGUAGE_CODE and TIME_ZONE.  
 
-## Features bonus
-+ Olivier Lacomblez want filter on reservations page
-+ We make disponibility and quantity of book
+### Testing scenarios
+[Test case](https://docs.google.com/spreadsheets/d/17FvoMHAEJmV-O-9uFwjUlW0Kt19n0W7g-LL8-aUK44w/edit?usp=sharing)
+
+## Bonus Features
++ Olivier Lacomblez requested a filter on reservation page
++ We make book availability and quantity 
 + Management page for feature Early Edition
 + Cross-sell Early edition on index, reservation and book details
 + Profil page
 + Catalog pagination
-+ UI bonus for sumary of book on catalog page
++ UI bonus for summaries of book on catalog page
 + Automatic random allocation cover for book 
-+ Page 403, 404 and 500
++ Custom 403, 404, and 500 error pages

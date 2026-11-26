@@ -4,9 +4,11 @@
 {% block extra_css %}
 	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
 {% endblock  %}
+
+{% block title %}À la une - Bibliothèque ReadMe{% endblock %}
 {% block content %}
     <div class="flex flex-wrap align-center justify-between items-center ">
-        <h2 class="text-xl md:text-2xl font-bold">Catalogue des livres</h2>
+        <h2 class="text-xl md:text-2xl font-bold">Gestion des livres à la une</h2>
 
         <button
             type="button"
@@ -132,7 +134,7 @@
                             <tr>
                                 <th class="text-left font-bold">Titre</th>
                                 <th class="text-left font-bold">Auteur</th>
-                                <th class="text-left font-bold">Categorie</th>
+                                <th class="text-left font-bold">Catégorie</th>
                                 <th class="text-left font-bold">Actions</th>
                             </tr>
                         </thead>
@@ -157,15 +159,15 @@
                                         <input type="hidden" name="book_id" value="{{ book.id }}">
                                         
                                         {% if book.early_edition %}
-                                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700">
                                                 Retirer de la une
                                             </button>
                                         {% elif featured_count >= 3 %}
-                                            <button type="button" disabled class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">
+                                            <button type="button" disabled class="bg-gray-400 text-white px-3 py-1 rounded-lg cursor-not-allowed">
                                                 Mettre à la une
                                             </button>
                                         {% else %}
-                                            <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                            <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">
                                                 Mettre à la une
                                             </button>
                                         {% endif %}

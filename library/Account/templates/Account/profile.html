@@ -2,16 +2,17 @@
 
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'Account/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'Account/css/Account.css' %}">
 {% endblock  %}
-
+{% block title %}Profil - Bibliothèque ReadMe{% endblock %}
 {% block content %}
     <div class=" max-w-[400px] mx-auto flex flex-col items-baseline">
-        <h1 class="text-2xl font-bold mb-4">Profil de {{ request.user.get_full_name }}</h1>
+        <h1 class="text-2xl font-bold mb-4">Profil de {{ user.get_full_name }}</h1>
         <p class="text-gray-600">Email : {{ user.email|default:"Non renseigné" }}</p>
         <p class="text-gray-600">Membre depuis : {{ user.date_joined|date:"d/m/Y" }}</p>
+        <p class="text-gray-600">Numéro d'adhérent : {{ user.membership_number }}</p>
         <a href="/account/edit" class="bg-blue-600 text-white px-4 py-2 mt-4 self-start rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-            Editer
+            Éditer
         </a>
     </div>
 {% endblock %}
