@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views import View
@@ -11,6 +10,7 @@ from django.db.models import Q
 
 from ..models import Reservation
 
+#changements de status autorisés pour une réservation
 ALLOWED_TRANSITIONS = {
     "en_attente": {"prete", "annulee"},
     "prete": {"empruntee", "annulee"},
@@ -29,32 +29,44 @@ STATUS_LABELS = {
 
 
 class ManagerRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    '''Hérite de LoginRequiredMixin et UserPassesTestMixin, permet de
+    restreindre l'accès uniquement aux gestionnaires.'''
     def test_func(self):
+        '''Vérifie si l'utilisateur est authentifié, et si son rôle 
+        est gestionnaire.'''
         user = self.request.user
         return user.is_authenticated and getattr(user, "role", None) == "gestionnaire"
 
 
 class ManageReservationsView(ManagerRequiredMixin, ListView):
+    '''Hérite de ManagerRequiredMixin et ListView, affiche la liste des réservations
+    dans manage_reservations.html.'''
     model = Reservation
     template_name = "ReadMe/manage_reservations.html"
     context_object_name = "reservations"
 
     def _get_status_filter(self) -> str:
+        '''Lit le paramètre GET status et garde la valeur si elle existe dans STATUS_LABELS.'''
         status = self.request.GET.get("status","").strip()
         return status if status in STATUS_LABELS else ""
 
     def _get_user_query(self) -> str:
+        '''Récupère le paramètre user saisi dans le champ de recherche utilisateur.'''
         return self.request.GET.get("user", "").strip()
 
     def _get_book_query(self) -> str:
+        '''Récupère le paramètre book saisi dans le champ de recherche utilisateur.'''
         return self.request.GET.get("book", "").strip()
 
     def get_queryset(self):
+        '''Utilise select_related pour charger les objets en une seule requête.
+        Filtre la recherche par utilisateur et/ou par livre.'''
         queryset = (
             Reservation.objects.select_related("user", "book")
             .order_by("-creation_date", "-id")
         )
 
+        #Si ces valeurs existent, déclenche le filtrage pour l'objet correspondant
         selected_status = self._get_status_filter()
         user_query = self._get_user_query()
         book_query = self._get_book_query()
@@ -80,8 +92,11 @@ class ManageReservationsView(ManagerRequiredMixin, ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        '''Parcourt les réservations et ajoute les status possibles. 
+        Ajoute ensuite au contexte les status et les filtres'''
         context = super().get_context_data(**kwargs)
         for reservation in context["reservations"]:
+            #Vérifie si le status est présent dans allowed pour afficher le bouton correspondant
             allowed = ALLOWED_TRANSITIONS.get(reservation.status, set())
             reservation.can_mark_prete = "prete" in allowed
             reservation.can_mark_empruntee = "empruntee" in allowed
@@ -97,6 +112,8 @@ class ManageReservationsView(ManagerRequiredMixin, ListView):
 
 
 class UpdateReservationStatusView(ManagerRequiredMixin, View):
+    '''Hérite de ManagerRequiredMixin et View. Traite les requêtes de changement
+    de status d'une réservation.'''
     @staticmethod
     def _build_redirect_url(request) -> str:
         base_url = reverse("ReadMe:manage_reservations")
