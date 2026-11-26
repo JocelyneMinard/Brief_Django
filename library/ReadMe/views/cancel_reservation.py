@@ -7,7 +7,20 @@ from ..models import Reservation
 @login_required
 @require_POST
 def cancel_reservation(request, pk):
-    # take reservation only for the self user
+    """
+    Cancel a reservation belonging to the currently authenticated user.
+
+    Retrieves the reservation matching `pk` and `request.user`. If its status
+    is either 'prete' or 'en_attente', updates the status to 'annulee' and
+    displays a success message; otherwise, displays an error message.
+
+    Args:
+        request (HttpRequest): The incoming POST HTTP request.
+        pk (int): The primary key of the Reservation to cancel.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the 'ReadMe:reservation' page.
+    """
     reservation = get_object_or_404(Reservation, pk=pk, user=request.user)
 
     if reservation.status in ["prete", "en_attente"]:

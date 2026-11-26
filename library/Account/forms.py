@@ -4,7 +4,17 @@ from .models import User
 from django import forms
 
 class CustomLoginForm(AuthenticationForm):
+    """
+    Custom authentication form using email and password with Tailwind CSS styling.
+    """
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the form with French labels and Tailwind CSS widget classes.
+
+        Args:
+            *args: Variable length argument list passed to AuthenticationForm.
+            **kwargs: Arbitrary keyword arguments passed to AuthenticationForm.
+        """
         super().__init__(*args, **kwargs)
         self.fields['email'].label = "Adresse e-mail"
         self.fields['password'].label = "Mot de passe"
@@ -51,7 +61,10 @@ class RegisterForm(UserCreationForm):
         return user
 
 class EditProfileForm(UserChangeForm):
-    # hidden password
+    """
+    Form allowing authenticated users to update their basic profile information
+    (email, first name, and last name) without exposing the password field.
+    """
     password = None
 
     class Meta:
@@ -59,6 +72,13 @@ class EditProfileForm(UserChangeForm):
         fields = ("email", "first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the form fields with Tailwind CSS styling.
+
+        Args:
+            *args: Variable length argument list passed to UserChangeForm.
+            **kwargs: Arbitrary keyword arguments passed to UserChangeForm.
+        """
         super().__init__(*args, **kwargs)
         tailwind_classes = 'w-full border border-gray-300 rounded px-3 py-2 mt-1'
         for field_name, field in self.fields.items():

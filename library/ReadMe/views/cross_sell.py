@@ -6,7 +6,22 @@ from .catalog import COVER_FILES
 
 
 class CrossSellMixin:
+    """
+    Mixin adding featured early-edition books with deterministic cover images
+    to the template context.
+    """
     def get_context_data(self, **kwargs):
+        """
+        Populate the template context with up to three early-edition books and
+        assign each a deterministic static cover image based on its primary key.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments passed to the parent
+                `get_context_data` method.
+
+        Returns:
+            dict: The updated template context containing `featured_books`.
+        """
         context = super().get_context_data(**kwargs)
         context["featured_books"] = (
             Book.objects.filter(early_edition=True)

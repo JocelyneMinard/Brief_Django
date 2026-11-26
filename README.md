@@ -35,6 +35,11 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  + [Manage early edition](http://127.0.0.1:8000/readme/manage/early-edition) only for staff
 
 ## Technical choices
+## DB constraints
+We change one constraint becuase the date give in brief block reservation :
+"Date de la demande, entre le 2026-09-01 et le 2026-11-15"
+If we keep this all new reservation is blocked, we put 31th December 2027
+
 ### dbdiagram
 We selected **[dbdiagram.io](https://dbdiagram.io/home)** for database modeling due to its simplicity, zero-install browser interface, and free tier. Using plain-text DBML syntax makes it natively Git-compatible for easy version control, while built-in AI features remain optionally available if needed.
 
@@ -61,23 +66,23 @@ Brief_Django/
     ├── Procfile.tailwind/           # File for Tailwing Django
     ├── database.md                  # Place for database creation
     └── Account/
-        ├── management/              # 
-        ├── mmigrations/             # 
-        ├── static/                  # 
-        ├── templates/               # 
+        ├── management/              # Folder for create command
+        ├── mmigrations/             # Folder for DB migrations
+        ├── static/                  # Statics files, CSS, JS and IMG 
+        ├── templates/               # HTML templates
         └── files for app...         # 
-    └── library/
-    └── ReadMe/
-        ├── management/              # 
-        ├── mmigrations/             # 
-        ├── static/                  # 
-        ├── templates/               # 
-        ├── views/                   # 
+    └── library/                     # Base App with settings
+    └── ReadMe/                      # ReadMe App
+        ├── management/              # Folder for create command
+        ├── mmigrations/             # Folder for DB migrations
+        ├── static/                  # Statics files, CSS, JS and IMG 
+        ├── templates/               # HTML templates
+        ├── views/                   # Folder for all views
         └── files for app...         # 
-    └── ReadmeStyle/
-    ├── static/
-    ├── templates/
-    └── staticfiles/                # Place where folder is create with command collectstatics
+    └── ReadmeStyle/                 # Tailwind folder
+    ├── static/                      # Statics files, CSS, JS and IMG 
+    ├── templates/                   # HTML base templates
+    └── staticfiles/                 # Place where folder is create with command collectstatics
 └── docs/
 ```
 
