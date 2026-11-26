@@ -21,7 +21,7 @@ Welcome to ReadMe Library, your warm and connected neighborhood library. Come bo
  python manage.py collectstatic
  python manage.py runserver
  ```
-[Go to](http://127.0.0.1:8000/readme/)
+[Go to homepage](http://127.0.0.1:8000/readme/)
 
  ## Mandatory Urls
  + [Home](http://127.0.0.1:8000/readme/)
