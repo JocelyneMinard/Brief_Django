@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
+{% endblock  %}
+{% block title %}{{ book.title }} — Bibliothèque ReadMe{% endblock %}
+
+{% block content %}
+    <div class="book-detail-actions">
+        <a href="{% url 'ReadMe:catalog' %}" class="back-link">&larr; Retour au catalogue</a>
+    </div>
+
+    <article class="book-detail">
+        <div class="book-detail-cover shadow-hard ">
+            <img
+                src="{{ cover_url }}"
+                alt="Couverture de {{ book.title }}"
+                class="shadow-hard"
+            >
+        </div>
+
+        <div class="book-detail-info">
+            <div class="book-detail-top">
+                {% if book.category %}
+                    <span class="book-category">{{ book.category.name }}</span>
+                {% endif %}
+
+                <div class="book-availability">
+                    {% if book.available_quantity > 0 %}
+                        <span class="availability-pill is-available">
+                            Dispo ({{ book.available_quantity }} exemplaire{{ book.available_quantity|pluralize }})
+                        </span>
+                    {% else %}
+                        <span class="availability-pill is-unavailable">
+                            Indisponible
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h1>{{ book.title }}</h1>
+            <p class="book-author"><strong>Auteur :</strong> {{ book.author|default:"Auteur inconnu" }}</p>
+
+            {% if book.summary %}
+                <div class="book-summary">
+                    <h2>Résumé</h2>
+                    <p>{{ book.summary|linebreaksbr }}</p>
+                </div>
+            {% endif %}
+
+            {% if request.user.is_authenticated and request.user.role == "utilisateur" %}
+                <div class="book-reservation-action">
+                    {% if book.available_quantity > 0 %}
+                        <form
+                            method="post"
+                            action="{% url 'ReadMe:reserve_book' book.pk %}"
+                            class="reserve-form"
+                            data-book-title="{{ book.title }}"
+                        >
+                            {% csrf_token %}
+                            <button type="submit" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition reserve-btn">
+                                Réserver
+                            </button>
+                        </form>
+                    {% else %}
+                        <button type="button" class="reserve-btn" disabled>
+                            Réserver
+                        </button>
+                    {% endif %}
+
+                    <div
+                        id="reservation-feedback"
+                        class="reservation-feedback"
+                        role="status"
+                        aria-live="polite"
+                        hidden
+                    ></div>
+                </div>
+            {% endif %}
+        </div>
+    </article>
+
+    {% include "ReadMe/cross-sell.html" %}
+    {% if request.user.is_authenticated %}
+        <script src="{% static 'ReadMe/js/book_details.js' %}" defer></script>
+    {% endif %}
+{% endblock %}

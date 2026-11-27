@@ -1,0 +1,31 @@
+{% load static %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <!-- preconnect is use for performance (not mandatory)-->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <!-- Download google font-->
+    <link href="https://googleapis.com/css2?family=Comic+Neue:ital,wght@0,700;1,700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <title>{% block title %}Bibliothèque ReadMe{% endblock %}</title>
+    {% tailwind_css %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
+
+    {% include "header.html" %}
+    
+    <!-- CONTENU PRINCIPAL -->
+    <!-- Le 'pt-24' (padding-top) évite que le haut du contenu soit caché sous le header fixe de 'h-16' -->
+    <main class="w-full max-w-[1200px] mx-auto px-4 mt-24 mb-12">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% include "footer.html" %}
+</body>
+</html>

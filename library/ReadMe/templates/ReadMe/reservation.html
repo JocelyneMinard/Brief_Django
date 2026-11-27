@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'ReadMe/css/ReadMe.css' %}">
+{% endblock  %}
+
+{% block title %}Mes demandes - Bibliothèque ReadMe{% endblock %}
+{% block content %}
+    <h2 class="text-2xl font-bold mb-4">Mes demandes</h2>
+    {% if messages %}
+        <div class="mx-auto mt-4 mb-4">
+            {% for message in messages %}
+                <div class="p-4 rounded-md border text-sm font-medium alert-message
+                    {% if message.tags == 'success' %}
+                        bg-green-50 border-green-300 text-green-800
+                    {% elif message.tags == 'error' %}
+                        bg-red-50 border-red-300 text-red-800
+                    {% elif message.tags == 'warning' %}
+                        bg-yellow-50 border-yellow-300 text-yellow-800
+                    {% else %}
+                        bg-blue-50 border-blue-300 text-blue-800
+                    {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="tabs flex mb-4">
+        <a href="?tab=all" class="category-pill shadow-hard tab mr-4 {% if active_tab == 'all' %}active{% endif %}">
+            Tous
+        </a>
+        <a href="?tab=active" class="category-pill shadow-hard mr-4 tab {% if active_tab == 'active' %}active{% endif %}">
+            Prête et empruntées
+        </a>
+        <a href="?tab=pending" class="category-pill shadow-hard mr-4 tab {% if active_tab == 'pending' %}active{% endif %}">
+            En attente
+        </a>
+        <a href="?tab=archived" class="category-pill shadow-hard mr-4 tab {% if active_tab == 'archived' %}active{% endif %}">
+            Terminés & Annulés
+        </a>
+    </div>
+    {% if reservations %}
+        <table class="asking_list">
+            <thead>
+                <tr>
+                    <th class="text-left font-bold">Date</th>
+                    <th class="text-left font-bold">Dernière mise à jour</th>
+                    <th class="text-left font-bold">Livre</th>
+                    <th class="text-left font-bold">Statut</th>
+                    <th class="text-left font-bold">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>
+                            <a  href="" class="">
+                                {{ reservation.creation_date|date:"d F Y" }}
+                            </a>
+                        </td>
+                        <td>
+                            <a  href="" class="">
+                                {{ reservation.last_update|date:"d F Y" }}
+                            </a>
+                        </td>
+                        <td>
+                            <a  href="" class="">
+                                {{ reservation.book.title }}
+                            </a>
+                        </td>
+                        <td>
+                            <a  href="" class="">
+                                {{ reservation.status|capfirst }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if reservation.status == "prete" or reservation.status == "en_attente" %}
+                                <!-- |escapejs of Django secure var format -->
+                                <form 
+                                    method="post" 
+                                    action="{% url 'ReadMe:cancel_reservation' reservation.pk %}" 
+                                    class="inline"
+                                    onsubmit="return confirm('Êtes-vous sûr de vouloir annuler la réservation pour « {{ reservation.book.title|escapejs }} » ?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="px-3 py-1 rounded-lg bg-red-600 text-white hover:bg-red-700 cursor-pointer">
+                                        Annuler
+                                    </button>
+                                </form>
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="mb-4">
+            <span class="flex">
+                Aucune demande 
+                {% if active_tab == "active" %}prête ou empruntée.
+                {% elif active_tab == "pending" %}en attente.
+                {% elif active_tab == "archived" %}terminée ou annulée.
+                {% elif active_tab == "all" %} en cours.
+                </span>
+                <a href="/readme/catalog" class="inline-flex bg-red-500 text-white font-extrabold text-xs tracking-wide px-5 py-3.5 border-2 border-gray-900 shadow-hard cursor-pointer">
+                    EXPLORER LE CATALOGUE →
+                </a>
+            {% endif %}
+        </p>
+    {% endif %}
+
+    <br class="mb-8" />
+    
+    {% include "ReadMe/cross-sell.html" %}
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.alert-message').forEach((el) => {
+                el.classList.add('opacity-0');
+                setTimeout(() => el.remove(), 500);
+            });
+        }, 4000); // Disparaît après 4 secondes
+    </script>
+{% endblock %}

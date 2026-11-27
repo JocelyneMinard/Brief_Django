@@ -1,0 +1,509 @@
+/* Vos styles supplémentaires */
+.shadow-hard {
+  box-shadow: 4px 4px 0px #242526;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.shadow-hard:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #111827;
+}
+
+.shadow-hard-sm {
+  box-shadow: 3px 3px 0px #242526;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.shadow-hard-sm:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #242526;
+}
+
+.screentone-bg {
+  background-image: radial-gradient(#d1d5db 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+
+.bang-outline {
+  -webkit-text-stroke: 2px #111827;
+}
+
+
+/** CSS catalog page ******************************************
+**************************************************************/
+.catalog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.toggle-filters-btn,
+.close-filters-btn {
+    display: none;
+    cursor: pointer;
+}
+
+.catalog-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.filter-sidebar {
+    position: sticky;
+    top: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.filter-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-group + .filter-group {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-pill {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #ced4da;
+    background: #fff;
+    color: #212529;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.category-pill.is-active {
+    background: #212529;
+    border-color: #212529;
+    color: #fff;
+}
+
+.catalog-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    position: relative;
+    z-index: 1
+}
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 90;
+}
+
+/* Mode tiroir sur petits écrans (768px et moins) */
+@media (max-width: 768px) {
+    .toggle-filters-btn,
+    .close-filters-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .catalog-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(320px, 85vw);
+        max-width: none;
+        border-radius: 0;
+        overflow-y: auto;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .filter-sidebar.is-open {
+        transform: translateX(0);
+    }
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.book-info {
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.book-title {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.book-author {
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.book-category {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: #f1f3f5;
+}
+
+.pagination {
+  margin-top: 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.pagination span {
+  margin : 0 15px 0 15px;
+}
+/* End CSS catalog page ***************************************
+**************************************************************/
+
+
+/** CSS book page ******************************************
+**************************************************************/
+.book-detail-actions {
+    max-width: 960px;
+    margin: 1.5rem auto 0;
+    padding: 0 1rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: #334155;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    color: #0f172a;
+}
+
+.book-detail {
+    max-width: 960px;
+    margin: 1rem auto 2.5rem;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+    gap: 2.25rem;
+    align-items: start;
+}
+
+.book-detail-cover {
+    aspect-ratio: 3 / 4.2;
+    overflow: hidden;
+    background: #1e293b;
+}
+
+.book-detail-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-detail-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.book-category,
+.availability-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.book-category {
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+}
+
+.availability-pill {
+    margin-left: auto;
+}
+
+.availability-pill.is-available {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.availability-pill.is-unavailable {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+.book-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.book-detail-info .book-category {
+    align-self: flex-start;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    background: #f1f5f9;
+    color: #334155;
+    margin:0;
+}
+
+.book-detail-info h1 {
+    margin: 0;
+    font-size: 1.85rem;
+    line-height: 1.25;
+}
+
+.book-detail-info .book-author {
+    margin: 0;
+    color: #475569;
+}
+
+.book-description h2 {
+    margin: 0.5rem 0 0.4rem;
+    font-size: 1.1rem;
+}
+
+.book-description p {
+    margin: 0;
+    line-height: 1.65;
+    color: #334155;
+}
+
+.book-reservation-action {
+    margin-top: 0.5rem;
+}
+
+.reserve-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.reserve-btn:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.reservation-feedback {
+    margin-top: 0.75rem;
+}
+
+.reservation-feedback.is-error{
+    color: rgba(188, 11, 11, 0.792);
+    border: 1px solid  rgba(188, 11, 11, 0.792);
+    margin-bottom: 1rem;
+    padding: .5rem;
+}
+
+.reservation-feedback.is-success{
+    color: rgba(16, 185, 129, 1);
+    border: 1px solid rgba(16, 185, 129, 1);
+    margin-bottom: 1rem;
+    padding: .5rem;
+}
+
+@media (max-width: 768px) {
+    .book-detail {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .book-detail-cover {
+        max-width: 260px;
+    }
+}
+
+/* End CSS book page ***************************************
+**************************************************************/
+
+
+/******************** ASKING *****************************/
+.asking_list{
+  width: 100%
+}
+
+.asking_list tr td{
+  border-bottom: 1px solid #808080;
+  padding: .5rem 0
+}
+
+/******************* Manga-bubbled *************************/
+
+/* Hidden on mobile */
+.manga-bubble {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    /* show bubble before all thing */
+    .book-card-link:hover {
+        z-index: 50;
+    }
+
+    .manga-bubble {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        
+        /* Put bubble on top right */
+        top: -45px;
+        left: 55%;
+        width: 245px;
+        min-height: 135px;
+        padding: 1.35rem 1.75rem; /* big padding on bubble */
+        background: #ffffff;
+        color: #111827;
+        border: 3px solid #111827;
+        border-radius: 50%; /* Forme ovale parfaite */
+        box-shadow: 4px 5px 0px #111827;
+        z-index: 60;
+        pointer-events: none;
+        text-align: center;
+
+        /* Animation Pop */
+        opacity: 0;
+        transform: scale(0.85) translateY(8px);
+        transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .manga-bubble p {
+        font-family: 'Comic Neue', sans-serif;
+        font-style: oblique;
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.3;
+        font-weight: 700;
+        color: #555;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* position of manga bubble arrow */
+    .manga-bubble-tail {
+        position: absolute;
+        bottom: 6px;
+        left: -18px;
+        width: 42px;
+        height: 36px;
+        z-index: 2;
+    }
+
+    /* Show on hover */
+    .book-card-link:hover .manga-bubble {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    
+    /* Inverse bubble when we are on the right of screen / every 2 card     */
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: auto;
+        right: 55%;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: auto;
+        right: -18px;
+        transform: scaleX(-1); /* Retourne la pointe en miroir */
+    }
+}
+
+
+@media (min-width: 988px) {
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble {
+        left: 55%;
+        right: auto;
+    }
+    .catalog-grid .book-card-link:nth-child(2n) .manga-bubble-tail {
+        left: -18px;
+        right: -auto;
+        transform: scaleX(1); 
+    }
+    /* Inverse bubble when we are on the right of screen / every 3 card     */
+    .catalog-grid .book-card-link:nth-child(3n) .manga-bubble {
+        left: auto;
+        right: 55%;
+    }
+    .catalog-grid .book-card-link:nth-child(3n) .manga-bubble-tail {
+        left: auto;
+        right: -18px;
+        transform: scaleX(-1); /* Retourne la pointe en miroir */
+    }
+}

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/**
+  * A catch-all path to Django template files, JavaScript, and Python files
+  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+  *
+  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
+  * the scope of this path.
+  */
+@source "../../../**/*.{html,py,js}";
+
+header, .mobile-menu{
+	font-weight: bold
+}
+
+@media (width <= 48rem) { /* md */
+	.mobile-nav{
+		display: inline-flex;
+		flex-flow: row;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.mobile-nav button{
+		width: 24px;
+		height: 24px;
+		display: contents
+	}
+}
+
+@import "tailwindcss";

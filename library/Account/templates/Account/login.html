@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'Account/css/Account.css' %}">
+{% endblock %}
+
+{% block title %}Connexion - Bibliothèque ReadMeReadMe Library{% endblock %}
+
+{% block content %}
+    <h2 class="text-2xl font-bold mb-4">Connexion</h2>
+    <form method="post" class="max-w-[400px] mx-auto">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="mb-4 text-red-600">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="mb-4">
+                {{ field.label_tag }}
+
+                {% if field.name == "password" or field.field.widget.input_type == "password" %}
+                    <div class="password-field relative w-full mt-1">
+                        {{ field }}
+                        <button
+                            type="button"
+                            class="toggle-password-btn absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
+                            aria-label="Afficher le mot de passe"
+                            aria-pressed="false"
+                        >
+                            <!-- Open eye -->
+                            <svg class="icon-eye w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+
+                            <!-- Strike eye -->
+                            <svg class="icon-eye-off w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M10.58 10.58A2 2 0 0 0 13.41 13.41" />
+                                <path d="M9.88 4.24A10.94 10.94 0 0 1 12 4c6.5 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19" />
+                                <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88" />
+                                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                                <line x1="2" y1="2" x2="22" y2="22" />
+                            </svg>
+                        </button>
+                    </div>
+                {% else %}
+                    {{ field }}
+                {% endif %}
+
+                {% if field.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+            Se connecter
+        </button>
+    </form>
+
+    <script src="{% static 'Account/js/account.js' %}"></script>
+{% endblock %}
